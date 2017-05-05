@@ -33,7 +33,7 @@ public class EchoServer {
 		this.session = session;
 		// 将WebSocket客户端会话添加到集合中
 		clientSet.add(this);
-		String message = String.format("【%s %s】", nickname, "加入了聊天室！");
+		String message = String.format("【%s %s】", nickname, "进入房间");
 		// 发送消息
 		broadcast(message);
 		System.out.println(message);
@@ -43,7 +43,7 @@ public class EchoServer {
 	@OnClose
 	public void end() {
 		clientSet.remove(this);
-		String message = String.format("【%s %s】", nickname, "离开了聊天室！");
+		String message = String.format("【%s %s】", nickname, "离开房间");
 		// 发送消息
 		broadcast(message);
 		System.out.println(message);

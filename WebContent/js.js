@@ -1,3 +1,6 @@
+
+
+
 // 创建WebSocket对象
 var webSocket = new WebSocket("ws://localhost:8080/echoserver/echo");
 var sendMsg = function() {
