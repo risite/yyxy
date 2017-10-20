@@ -89,11 +89,11 @@ function evaluate() {
  * Alpha-Beta搜索
  * 
  */
-function AlphaBeta(vlAlpha, vlBeta, nDepth) {
+function AlphaBeta(board, vlAlpha, vlBeta, nDepth) {
 	if (nDepth == 0) {
-		return;// 返回局面评价函数
+		return evaluate();// 返回局面评价函数
 	}
-	var ways = [ "1243", "2143", "2314", "2341", "3412", "3241", "3214", "4312" ];// 生成全部走法;
+	var ways = waysGenerator(board);// 生成全部走法;
 	// 按历史表排序全部走法;
 	for (var i = 0; i < ways.length; i++) {
 		// 走这个走法;
