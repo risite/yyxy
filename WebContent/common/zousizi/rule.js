@@ -2,7 +2,7 @@
 
 
 // 创建WebSocket对象
-var webSocket = new WebSocket("ws://localhost:8080/echoserver/echo");
+var webSocket = new WebSocket("ws://localhost:8080/ygame/echo");
 var sendMsg = function() {
 	var inputElement = document.getElementById('msg');
 	// 发送消息，不能为空

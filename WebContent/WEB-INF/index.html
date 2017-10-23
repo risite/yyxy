@@ -10,7 +10,7 @@ function init() {
  output = document.getElementById("output");
  }
 ction send_echo() {
- var wsUri = "ws://localhost:8080/echoserver/echo";
+ var wsUri = "ws://localhost:8080/ygame/echo";
  writeToScreen("Connecting to " + wsUri);
  echo_websocket = new WebSocket(wsUri);
  echo_websocket.onopen = function (evt) {
