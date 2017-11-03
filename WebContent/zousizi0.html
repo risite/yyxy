@@ -16,92 +16,122 @@
 }
 
 #myCanvas {
-/* 	border: 3px solid black; */
+	/* 	border: 3px solid black; */
+	
 }
 </style>
 </head>
 <body style="background-color: #96CDCD;">
 
 	<div class="top"></div>
-	
+
 	<div class="container">
-		<canvas id="myCanvas" width="490" height="490"></canvas>
+		<canvas id="myCanvas" width="490" height="490">
+		
+		
+		</canvas>
+		<table id="board">
+			<tr style="width:200px; height:100px;">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
 	</div>
 
 </body>
 <script type="text/javascript">
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
-	
+
 	// 外线，一个矩形
 	ctx.lineWidth = 8;
-    ctx.strokeRect(45,45,400,400); // 矩形
+	ctx.strokeRect(45, 45, 400, 400); // 矩形
 	// 内线
-	ctx.moveTo(45,178); //起始位置
-    ctx.lineTo(445,178); //终止位置
-    ctx.stroke();
-	
-	ctx.moveTo(45,311); //起始位置
-    ctx.lineTo(445,311); //终止位置
-    ctx.stroke();
-	
-	ctx.moveTo(178,45); //起始位置
-    ctx.lineTo(178,445); //终止位置
-    ctx.stroke();
-	
-	ctx.moveTo(311,45); //起始位置
-    ctx.lineTo(311,445); //终止位置
+	ctx.moveTo(45, 178); //起始位置
+	ctx.lineTo(445, 178); //终止位置
 	ctx.stroke();
-    
+
+	ctx.moveTo(45, 311); //起始位置
+	ctx.lineTo(445, 311); //终止位置
+	ctx.stroke();
+
+	ctx.moveTo(178, 45); //起始位置
+	ctx.lineTo(178, 445); //终止位置
+	ctx.stroke();
+
+	ctx.moveTo(311, 45); //起始位置
+	ctx.lineTo(311, 445); //终止位置
+	ctx.stroke();
+
 	//黑棋
 	ctx.beginPath();
 	ctx.arc(45, 45, 40, 0, 2 * Math.PI);
 	ctx.fillStyle = "black";
 	ctx.fill();
 	ctx.stroke();
-	
+
 	ctx.beginPath();
 	ctx.arc(178, 45, 40, 0, 2 * Math.PI);
 	ctx.fillStyle = "black";
 	ctx.fill();
 	ctx.stroke();
-	
+
 	ctx.beginPath();
 	ctx.arc(311, 45, 40, 0, 2 * Math.PI);
 	ctx.fillStyle = "black";
 	ctx.fill();
 	ctx.stroke();
-	
+
 	ctx.beginPath();
 	ctx.arc(445, 45, 40, 0, 2 * Math.PI);
 	ctx.fillStyle = "black";
 	ctx.fill();
-    ctx.stroke();
+	ctx.stroke();
 	//白棋
 	ctx.beginPath();
-	ctx.strokeStyle="white";
+	ctx.strokeStyle = "white";
 	ctx.arc(45, 445, 40, 0, 2 * Math.PI);
 	ctx.fillStyle = "white";
 	ctx.fill();
 	ctx.stroke();
-	
+
 	ctx.beginPath();
 	ctx.arc(178, 445, 40, 0, 2 * Math.PI);
 	ctx.fillStyle = "white";
 	ctx.fill();
 	ctx.stroke();
-	
+
 	ctx.beginPath();
 	ctx.arc(311, 445, 40, 0, 2 * Math.PI);
 	ctx.fillStyle = "white";
 	ctx.fill();
 	ctx.stroke();
-	
+
 	ctx.beginPath();
 	ctx.arc(445, 445, 40, 0, 2 * Math.PI);
 	ctx.fillStyle = "white";
 	ctx.fill();
-    ctx.stroke();
+	ctx.stroke();
 </script>
 <script language="JavaScript" src="common/zousizi/rule.js"></script>
 <script language="JavaScript" src="common/zousizi/AI.js"></script>
