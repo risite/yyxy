@@ -15,47 +15,47 @@
 
 		<svg id="svg" style="width: 600px; height: 300px; border: 5px solid green;">
 <!-- ***************************#B0C4DE*************************************************** -->
-<circle onclick="dis(evt)" cx="45" cy="45" r="40" stroke="green"
+<circle id="11" onclick="dis(11)" cx="45" cy="45" r="40" stroke="green"
 				stroke-width="1" fill="green" />
-<circle cx="130" cy="45" r="40" stroke="green" stroke-width="1"
+<circle id="12" onclick="dis(12)" cx="130" cy="45" r="40" stroke="green" stroke-width="1"
 				fill="green" />
-<circle cx="215" cy="45" r="40" stroke="green" stroke-width="1"
-				fill="green" />
-<!-- ****************************************************************************** -->
-				
-<circle cx="45" cy="145" r="40" stroke="green" stroke-width="1"
-				fill="green" />
-<circle cx="130" cy="145" r="40" stroke="green" stroke-width="1"
-				fill="green" />
-<circle cx="215" cy="145" r="40" stroke="green" stroke-width="1"
-				fill="green" />
-<circle cx="300" cy="145" r="40" stroke="green" stroke-width="1"
-				fill="green" />
-<circle cx="385" cy="145" r="40" stroke="green" stroke-width="1"
+<circle id="13" onclick="dis(13)" cx="215" cy="45" r="40" stroke="green" stroke-width="1"
 				fill="green" />
 <!-- ****************************************************************************** -->
 				
-<circle cx="45" cy="245" r="40" stroke="green" stroke-width="1"
+<circle id="21" onclick="dis(21)" cx="45" cy="145" r="40" stroke="green" stroke-width="1"
 				fill="green" />
-<circle cx="130" cy="245" r="40" stroke="green" stroke-width="1"
+<circle id="22" onclick="dis(22)" cx="130" cy="145" r="40" stroke="green" stroke-width="1"
 				fill="green" />
-<circle cx="215" cy="245" r="40" stroke="green" stroke-width="1"
+<circle id="23" onclick="dis(23)" cx="215" cy="145" r="40" stroke="green" stroke-width="1"
 				fill="green" />
-<circle cx="300" cy="245" r="40" stroke="green" stroke-width="1"
+<circle id="24" onclick="dis(24)" cx="300" cy="145" r="40" stroke="green" stroke-width="1"
 				fill="green" />
-<circle cx="385" cy="245" r="40" stroke="green" stroke-width="1"
+<circle id="25" onclick="dis(25)" cx="385" cy="145" r="40" stroke="green" stroke-width="1"
 				fill="green" />
-<circle cx="470" cy="245" r="40" stroke="green" stroke-width="1"
+<!-- ****************************************************************************** -->
+				
+<circle id="31" onclick="dis(31)" cx="45" cy="245" r="40" stroke="green" stroke-width="1"
 				fill="green" />
-<circle cx="555" cy="245" r="40" stroke="green" stroke-width="1"
+<circle id="32" onclick="dis(32)" cx="130" cy="245" r="40" stroke="green" stroke-width="1"
+				fill="green" />
+<circle id="33" onclick="dis(33)" cx="215" cy="245" r="40" stroke="green" stroke-width="1"
+				fill="green" />
+<circle id="34" onclick="dis(34)" cx="300" cy="245" r="40" stroke="green" stroke-width="1"
+				fill="green" />
+<circle id="35" onclick="dis(35)" cx="385" cy="245" r="40" stroke="green" stroke-width="1"
+				fill="green" />
+<circle id="36" onclick="dis(36)" cx="470" cy="245" r="40" stroke="green" stroke-width="1"
+				fill="green" />
+<circle id="37" onclick="dis(37)" cx="555" cy="245" r="40" stroke="green" stroke-width="1"
 				fill="green" />
 </svg>
 	</div>
 
 </body>
 <script type="text/javascript">
-	function dis(evt){
-		document.getElementById('svg').remove(evt);
+	function dis(thisID){
+		document.getElementById(thisID).remove();
 	}
 </script>
 </html>
