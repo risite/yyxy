@@ -7,7 +7,7 @@ import org.junit.Test;
 public class pickCoin {
 	@Test
 	public void test() {
-		System.out.println(Arrays.toString(pick(2)));
+		System.out.println(Arrays.toString(pick(123)));
 	}
 
 	Integer[] board1 = { 356, 347, 330, 321, 312, 303, 257, 246, 231, 220, 213, 202, 154, 145, 132, 123, 111, 55, 44,
