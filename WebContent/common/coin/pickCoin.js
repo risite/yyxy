@@ -6,7 +6,7 @@ var bottomVal;// 向上平移值
 var board1 = [ 356, 347, 330, 321, 312, 303, 257, 246, 231, 220, 213, 202, 154,
 		145, 132, 123, 111, 55, 44, 33, 22 ];// 必赢着法对照表
 var pieces = [ 37,36,35,34,33,32,31,25,24,23,22,21,13,12,11 ];// 当前所有棋子
-
+var mark = true;// 控制button
 function removeClick(id) {
 	$("#" + id).removeClass("coin-evt");
 	$("#" + id).unbind("click");
@@ -21,6 +21,7 @@ function addClick() {
 	for (x in pieces) {
 		$("#" + pieces[x]).addClass("coin-evt");
 		$("#" + pieces[x]).click(function() {
+			mark=true;
 			rightVal = 89 * (this.id % 10 - 1);
 			bottomVal = 100 + 92 * (parseInt(this.id / 10) - 1);
 			movegif(this.id, rightVal, bottomVal);
@@ -31,6 +32,7 @@ function addClick() {
 }
 
 $(".coin-img").click(function() {
+	mark=true;
 	rightVal = 89 * (this.id % 10 - 1);
 //	rightVal = 80 * (this.id % 10 - 1) - 8 * (countLeft - this.id % 10);
 	bottomVal = 100 + 92 * (parseInt(this.id / 10) - 1);
@@ -44,21 +46,24 @@ $(".coin-img").click(function() {
  */
 $("#done").click(
 		function() {
-			var move = pick(state);
-			var n = move[1];
-			var temppieces = pieces;
-			for (var i = 0; i < temppieces.length; i++) {
-				if (n != 0 && parseInt(temppieces[i] / 10) == move[0]) {
-					rightVal = -558 + 89 * (temppieces[i] % 10 - 1);
-					bottomVal = 100 + 92 * (parseInt(temppieces[i] / 10) - 1);
-					movegif(temppieces[i], rightVal, bottomVal);
-					$("#" + temppieces[i]).removeClass("coin-evt");
-					$("#" + temppieces[i]).unbind("click");
-					countRight++;
-					n--;
+			if(mark){
+				mark=false;
+				var move = pick(state);
+				var n = move[1];
+				var temppieces = pieces;
+				for (var i = 0; i < temppieces.length; i++) {
+					if (n != 0 && parseInt(temppieces[i] / 10) == move[0]) {
+						rightVal = -558 + 89 * (temppieces[i] % 10 - 1);
+						bottomVal = 100 + 92 * (parseInt(temppieces[i] / 10) - 1);
+						movegif(temppieces[i], rightVal, bottomVal);
+						$("#" + temppieces[i]).removeClass("coin-evt");
+						$("#" + temppieces[i]).unbind("click");
+						countRight++;
+						n--;
+					}
 				}
+				addClick();
 			}
-			addClick();
 		});
 
 function movegif(id, rightVal, bottomVal) {
@@ -77,6 +82,13 @@ function movegif(id, rightVal, bottomVal) {
 		setTimeout(function() {
 			alert('game over!')
 		}, 500);
+		$("#done").unbind("click");
+		for (x in pieces) {
+			if (parseInt(pieces[x] / 10) != parseInt(id / 10)) {
+				$("#" + pieces[x]).removeClass("coin-evt");
+				$("#" + pieces[x]).unbind("click");
+			}
+		}
 	}
 }
 
