@@ -5,44 +5,67 @@ var rightVal;// 向左平移值
 var bottomVal;// 向上平移值
 var board1 = [ 356, 347, 330, 321, 312, 303, 257, 246, 231, 220, 213, 202, 154,
 		145, 132, 123, 111, 55, 44, 33, 22 ];// 必赢着法对照表
-var pieces = [ 11, 12, 13, 21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 36, 37 ];// 当前所有棋子
+var pieces = [ 37,36,35,34,33,32,31,25,24,23,22,21,13,12,11 ];// 当前所有棋子
 
-$("img").click(function() {
-	rightVal = 80 * (this.id % 10 - 1) - 8 * (countLeft - this.id % 10);
+function removeClick(id) {
+	$("#" + id).removeClass("coin-evt");
+	$("#" + id).unbind("click");
+	for (x in pieces) {
+		if (parseInt(pieces[x] / 10) != parseInt(id / 10)) {
+			$("#" + pieces[x]).removeClass("coin-evt");
+			$("#" + pieces[x]).unbind("click");
+		}
+	}
+}
+function addClick() {
+	for (x in pieces) {
+		$("#" + pieces[x]).addClass("coin-evt");
+		$("#" + pieces[x]).click(function() {
+			rightVal = 89 * (this.id % 10 - 1);
+			bottomVal = 100 + 92 * (parseInt(this.id / 10) - 1);
+			movegif(this.id, rightVal, bottomVal);
+			countLeft++;
+			removeClick(this.id);
+		});
+	}
+}
+
+$(".coin-img").click(function() {
+	rightVal = 89 * (this.id % 10 - 1);
+//	rightVal = 80 * (this.id % 10 - 1) - 8 * (countLeft - this.id % 10);
 	bottomVal = 100 + 92 * (parseInt(this.id / 10) - 1);
 	movegif(this.id, rightVal, bottomVal);
 	countLeft++;
-	if(state==1||state==10||state==1){
-		alert("game over, you win!")
-	}
+	removeClick(this.id);
 });
 
 /**
  * 机器(AI
  */
-$("button").click(function() {
-	var move = pick(state);
-	var n = move[1];
-	var temppieces = pieces;
-	for (var i = 0; i < temppieces.length; i++) {
-		if (n != 0 && parseInt(temppieces[i] / 10) == move[0]) {
-			rightVal = -602+80 * (temppieces[i] % 10 - 1) + 8 * (countRight - temppieces[i] % 10);
-			bottomVal = 100 + 92 * (parseInt(temppieces[i] / 10) - 1);
-			movegif(temppieces[i], rightVal, bottomVal);
-			countRight++;
-			n--;
-			if(state==1||state==10||state==1){
-				alert("game over, computer win!")
+$("#done").click(
+		function() {
+			var move = pick(state);
+			var n = move[1];
+			var temppieces = pieces;
+			for (var i = 0; i < temppieces.length; i++) {
+				if (n != 0 && parseInt(temppieces[i] / 10) == move[0]) {
+					rightVal = -558 + 89 * (temppieces[i] % 10 - 1);
+					bottomVal = 100 + 92 * (parseInt(temppieces[i] / 10) - 1);
+					movegif(temppieces[i], rightVal, bottomVal);
+					$("#" + temppieces[i]).removeClass("coin-evt");
+					$("#" + temppieces[i]).unbind("click");
+					countRight++;
+					n--;
+				}
 			}
-		}
-	}
-});
+			addClick();
+		});
 
 function movegif(id, rightVal, bottomVal) {
 	$("#" + id).animate({
 		bottom : bottomVal,
 		right : rightVal
-	}, "fast");
+	}, 500);
 
 	// 拿完之后的棋子
 	var piece = new Array(1);
@@ -50,6 +73,11 @@ function movegif(id, rightVal, bottomVal) {
 	pieces = pieces.diff(piece); // 当前状态减去拿掉的硬币
 	var rowVal = parseInt(id / 10);// 拿的几排
 	state = state - Math.pow(10, 3 - rowVal);// 拿完状态
+	if (state == 1 || state == 10 || state == 100) {
+		setTimeout(function() {
+			alert('game over!')
+		}, 500);
+	}
 }
 
 // 数组取差
