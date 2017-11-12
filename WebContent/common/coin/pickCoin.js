@@ -120,6 +120,13 @@ function pick(temp) {
 
 function matchNumber(integer) {
 
+	/**
+	 * 百位数：integer/100
+	 * 
+	 * 十位数：integer/10%10
+	 * 
+	 * 个位数：integer%10
+	 */
 	// 只有一排有
 	if (integer % 100 == 0 && integer != 100) {
 		return integer - 100;
@@ -128,13 +135,6 @@ function matchNumber(integer) {
 	} else if (integer < 10 && integer > 1) {
 		return integer - 1;
 	}
-	/**
-	 * 百位数：integer/100
-	 * 
-	 * 十位数：integer/10%10
-	 * 
-	 * 个位数：integer%10
-	 */
 
 	// *10 or *01
 	if ((integer % 10 == 0 && parseInt(integer / 10) % 10 == 1)
@@ -163,7 +163,7 @@ function matchNumber(integer) {
 		}
 		if (integer > board1[i]) {
 			if ((integer - board1[i]) % 100 == 0
-					|| ((integer - board1[i]) % 10 == 0 && parseInt((integer - board1[i]) / 10) < 10)
+					|| (parseInt(integer / 100) == parseInt(board1[i] / 100) && integer % 10 == board1[i] % 10)
 					|| parseInt(board1[i] / 10) == parseInt(integer / 10)) {
 				return integer - board1[i];
 			}

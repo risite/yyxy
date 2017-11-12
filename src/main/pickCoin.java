@@ -7,11 +7,14 @@ import org.junit.Test;
 public class pickCoin {
 	@Test
 	public void test() {
-		System.out.println(Arrays.toString(pick(21)));
+		for(int i = 1;i<358;i++){
+			System.out.println(i+":::::"+Arrays.toString(pick(i)));
+			
+		}
 	}
 
-	Integer[] board1 = { 356, 347, 330, 321, 312, 303, 257, 246, 231, 220, 213, 202, 154, 145, 132, 123, 111, 55, 44,
-			33, 22 };
+	Integer[] board1 = { 356, 347, 330, 321, 312, 303, 257, 246, 231, 220, 213,
+			202, 154, 145, 132, 123, 111, 55, 44, 33, 22 };
 
 	/**
 	 * 拿硬币
@@ -34,14 +37,13 @@ public class pickCoin {
 
 	public int matchNumber(Integer integer) {
 
-		//只有一排有
-		if (integer%100==0&&integer!=100) {
-			return integer-100;
-		}else
-		if (integer%10==0&&integer>10&&100>integer) {
-			return integer-10;
-		}else if (integer<10&&integer>1) {
-			return integer-1;
+		// 只有一排有
+		if (integer % 100 == 0 && integer != 100) {
+			return integer - 100;
+		} else if (integer % 10 == 0 && integer > 10 && 100 > integer) {
+			return integer - 10;
+		} else if (integer < 10 && integer > 1) {
+			return integer - 1;
 		}
 		/**
 		 * 百位数：integer/100
@@ -52,15 +54,18 @@ public class pickCoin {
 		 */
 
 		// *10 or *01
-		if ((integer % 10 == 0 && integer / 10 % 10 == 1) || (integer % 10 == 1 && integer / 10 % 10 == 0)) {
+		if ((integer % 10 == 0 && integer / 10 % 10 == 1)
+				|| (integer % 10 == 1 && integer / 10 % 10 == 0)) {
 			return integer / 100 * 100;
 		}
 		// 1*0 or 0*1
-		if ((integer / 100 == 1 && integer % 10 == 0) || (integer / 100 == 0 && integer % 10 == 1)) {
+		if ((integer / 100 == 1 && integer % 10 == 0)
+				|| (integer / 100 == 0 && integer % 10 == 1)) {
 			return (integer / 10 % 10) * 10;
 		}
 		// 10* or 01*
-		if ((integer / 100 == 1 & integer / 10 % 10 == 0) || (integer / 100 == 0 && integer / 10 % 10 == 1)) {
+		if ((integer / 100 == 1 & integer / 10 % 10 == 0)
+				|| (integer / 100 == 0 && integer / 10 % 10 == 1)) {
 			return integer % 10;
 		}
 
@@ -74,7 +79,8 @@ public class pickCoin {
 				}
 			}
 			if (integer > i) {
-				if ((integer - i) % 100 == 0 || ((integer - i) % 10 == 0 && (integer - i) / 10 < 10)
+				if ((integer - i) % 100 == 0
+						|| (integer / 100 == i / 100 && integer % 10 == i % 10)
 						|| i / 10 == integer / 10) {
 					return integer - i;
 				}
