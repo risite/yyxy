@@ -5,133 +5,120 @@
 <title>走四子</title>
 <link rel="stylesheet" type="text/css" href="common/zousizi/css.css" />
 <style type="text/css">
-.container {
-	margin: 0 auto;
-	width: 490px;
-}
-
 .top {
 	margin: 0 auto;
 	height: 200px;
 }
 
 #myCanvas {
-	/* 	border: 3px solid black; */
-	
+	border: 0 solid black;
+	display: block;
+	margin: 0px auto;
 }
 </style>
 </head>
-<body style="background-color: #96CDCD;">
+<body style="background-color: #B0B0B0;">
 
 	<div class="top"></div>
 
-	<div class="container">
-		<canvas id="myCanvas" width="490" height="490">
+	<canvas id="myCanvas" width="900" height="900">
 		
 		
 		</canvas>
-		<table id="board">
-			<tr style="width:200px; height:100px;">
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-		</table>
-	</div>
+	<table id="board">
+		<tr style="width: 200px; height: 100px;">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
 
 </body>
 <script type="text/javascript">
 	var c = document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
+	var context = c.getContext("2d");
+	context.lineWidth = 10;//线条的宽度
+	window.onload = function() {
+		drawChessBoard(); // 画棋盘
+		oneStep(0, 0, true);
+		oneStep(1, 0, true);
+		oneStep(2, 0, true);
+		oneStep(3, 0, true);
+		oneStep(0, 3, false);
+		oneStep(1, 3, false);
+		oneStep(2, 3, false);
+		oneStep(3, 3, false);
+	}
+	c.onclick= function(e){
+		var x = e.offsetX;
+        var y = e.offsetY;
+        var i = Math.floor(x / 220);
+        var j = Math.floor(y / 220);
+        oneStep(i,j,true);
+	}
+	//绘画棋盘
+	var drawChessBoard = function() {
+		for (var i = 0; i < 4; i++) {
+			context.moveTo(130 + i * 220, 130);
+			context.lineTo(130 + i * 220, 790);
+			context.stroke();
+			context.moveTo(130, 130 + i * 220);
+			context.lineTo(790, 130 + i * 220);
+			context.stroke();
+		}
+	}
 
-	// 外线，一个矩形
-	ctx.lineWidth = 8;
-	ctx.strokeRect(45, 45, 400, 400); // 矩形
-	// 内线
-	ctx.moveTo(45, 178); //起始位置
-	ctx.lineTo(445, 178); //终止位置
-	ctx.stroke();
+	//画棋子
+	var oneStep = function(i, j, me) {
+		context.beginPath();
+		context.arc(130 + i * 220, 130 + j * 220, 90, 0, 2 * Math.PI);// 画圆
+		context.closePath();
+		//渐变
+		var gradient = context
+				.createRadialGradient(130 + i * 220 + 2, 130 + j * 220 - 2,
+						100, 130 + i * 220 + 2, 130 + j * 220 - 2, 0);
+		if (me) {
+			gradient.addColorStop(0, '#0a0a0a');
+			gradient.addColorStop(1, '#636766');
+		} else {
+			gradient.addColorStop(0, '#d1d1d1');
+			gradient.addColorStop(1, '#f9f9f9');
+		}
+		context.fillStyle = gradient;
+		context.fill();
+	}
+	//销毁棋子
+	var minusStep = function(i, j) {
+		//擦除该圆
+		context.clearRect((i) * 30, (j) * 30, 30, 30);
+		// 重画该圆周围的格子
+		context.beginPath();
+		context.moveTo(15 + i * 30, j * 30);
+		context.lineTo(15 + i * 30, j * 30 + 30);
+		context.moveTo(i * 30, j * 30 + 15);
+		context.lineTo((i + 1) * 30, j * 30 + 15);
 
-	ctx.moveTo(45, 311); //起始位置
-	ctx.lineTo(445, 311); //终止位置
-	ctx.stroke();
-
-	ctx.moveTo(178, 45); //起始位置
-	ctx.lineTo(178, 445); //终止位置
-	ctx.stroke();
-
-	ctx.moveTo(311, 45); //起始位置
-	ctx.lineTo(311, 445); //终止位置
-	ctx.stroke();
-
-	//黑棋
-	ctx.beginPath();
-	ctx.arc(45, 45, 40, 0, 2 * Math.PI);
-	ctx.fillStyle = "black";
-	ctx.fill();
-	ctx.stroke();
-
-	ctx.beginPath();
-	ctx.arc(178, 45, 40, 0, 2 * Math.PI);
-	ctx.fillStyle = "black";
-	ctx.fill();
-	ctx.stroke();
-
-	ctx.beginPath();
-	ctx.arc(311, 45, 40, 0, 2 * Math.PI);
-	ctx.fillStyle = "black";
-	ctx.fill();
-	ctx.stroke();
-
-	ctx.beginPath();
-	ctx.arc(445, 45, 40, 0, 2 * Math.PI);
-	ctx.fillStyle = "black";
-	ctx.fill();
-	ctx.stroke();
-	//白棋
-	ctx.beginPath();
-	ctx.strokeStyle = "white";
-	ctx.arc(45, 445, 40, 0, 2 * Math.PI);
-	ctx.fillStyle = "white";
-	ctx.fill();
-	ctx.stroke();
-
-	ctx.beginPath();
-	ctx.arc(178, 445, 40, 0, 2 * Math.PI);
-	ctx.fillStyle = "white";
-	ctx.fill();
-	ctx.stroke();
-
-	ctx.beginPath();
-	ctx.arc(311, 445, 40, 0, 2 * Math.PI);
-	ctx.fillStyle = "white";
-	ctx.fill();
-	ctx.stroke();
-
-	ctx.beginPath();
-	ctx.arc(445, 445, 40, 0, 2 * Math.PI);
-	ctx.fillStyle = "white";
-	ctx.fill();
-	ctx.stroke();
+		context.stroke();
+	}
 </script>
 <script language="JavaScript" src="common/zousizi/rule.js"></script>
 <script language="JavaScript" src="common/zousizi/AI.js"></script>
