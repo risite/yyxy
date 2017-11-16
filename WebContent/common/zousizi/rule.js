@@ -211,7 +211,6 @@ function kill(id1, id2, shiorhu, ways) {
 				alph(this);
 			}
 		}
-		;
 		if (id2 == a
 				&& document.getElementById("g" + id1 + b).children[0] != undefined
 				&& document.getElementById("g" + id1 + b).children[0].name == shiorhu
@@ -223,10 +222,7 @@ function kill(id1, id2, shiorhu, ways) {
 				alph(this);
 			}
 		}
-		;
-
 	}
-	;
 }
 
 // 去除事件
