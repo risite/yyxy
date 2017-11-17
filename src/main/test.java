@@ -12,16 +12,17 @@ public class test {
 	@Test
 	public void test(){
 		//棋盘初始状态
-		Integer[] board = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1 };
+//		Integer[] board = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1 };
 //		Integer[] board = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2};
-		AlphaBeta(board, -3,3,3);
-		int x=0;
-		ArrayList list = (ArrayList) map.get(1);
-		for(int i=0;i<list.size();i++){
-			System.out.println(i+1);
-			printArray((Integer[]) list.get(i));
-		}
+//		AlphaBeta(board, -3,3,3);
+//		int x=0;
+//		ArrayList list = (ArrayList) map.get(1);
+//		for(int i=0;i<list.size();i++){
+//			System.out.println(i+1);
+//			printArray((Integer[]) list.get(i));
+//		}
 //		System.out.prIntegerln("1324".substring(3,4));
+		System.out.println(Arrays.toString(getFibonacci(20)));
 	}
 	
 	// 当前要走的棋子
@@ -194,14 +195,8 @@ public class test {
 		long[] array = new long[len];
 		array[0] = 1;
 		array[1] = 1;
-		long x = 1;
-		long y = 1;
-		long z;
 		for (int i = 2; i < len; i++) {
-			array[i] = x + y;
-			z = y;
-			y = x + y;
-			x = z;
+			array[i] = array[i-1] + array[i-2];
 		}
 		return array;
 	}

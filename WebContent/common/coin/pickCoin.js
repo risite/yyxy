@@ -1,11 +1,11 @@
-var state = 357;// 当前局面状态
+var state = 3579;// 当前局面状态
 var countLeft = 1;// 放左边总数
 var countRight = 1;// 放右边总数
 var rightVal;// 向左平移值
 var bottomVal;// 向上平移值
-var board1 = [ 356, 347, 330, 321, 312, 303, 257, 246, 231, 220, 213, 202, 154,
-		145, 132, 123, 111, 55, 44, 33, 22 ];// 必赢着法对照表
-var pieces = [ 37,36,35,34,33,32,31,25,24,23,22,21,13,12,11 ];// 当前所有棋子
+var board = [];// 必赢着法对照表
+var pieces = [ 49, 48, 47, 46, 45, 44, 43, 42, 41, 37, 36, 35, 34, 33, 32, 31,
+		25, 24, 23, 22, 21, 13, 12, 11 ];// 当前所有棋子
 var mark = true;// 控制button
 function removeClick(id) {
 	$("#" + id).removeClass("coin-evt");
@@ -21,7 +21,7 @@ function addClick() {
 	for (x in pieces) {
 		$("#" + pieces[x]).addClass("coin-evt");
 		$("#" + pieces[x]).click(function() {
-			mark=true;
+			mark = true;
 			rightVal = 89 * (this.id % 10 - 1);
 			bottomVal = 100 + 92 * (parseInt(this.id / 10) - 1);
 			movegif(this.id, rightVal, bottomVal);
@@ -30,41 +30,36 @@ function addClick() {
 		});
 	}
 }
-
 $(".coin-img").click(function() {
-	mark=true;
+	mark = true;
 	rightVal = 89 * (this.id % 10 - 1);
-//	rightVal = 80 * (this.id % 10 - 1) - 8 * (countLeft - this.id % 10);
+	// rightVal = 80 * (this.id % 10 - 1) - 8 * (countLeft - this.id % 10);
 	bottomVal = 100 + 92 * (parseInt(this.id / 10) - 1);
 	movegif(this.id, rightVal, bottomVal);
 	countLeft++;
 	removeClick(this.id);
 });
 
-/**
- * 机器(AI
- */
-$("#done").click(
-		function() {
-			if(mark){
-				mark=false;
-				var move = pick(state);
-				var n = move[1];
-				var temppieces = pieces;
-				for (var i = 0; i < temppieces.length; i++) {
-					if (n != 0 && parseInt(temppieces[i] / 10) == move[0]) {
-						rightVal = -558 + 89 * (temppieces[i] % 10 - 1);
-						bottomVal = 100 + 92 * (parseInt(temppieces[i] / 10) - 1);
-						movegif(temppieces[i], rightVal, bottomVal);
-						$("#" + temppieces[i]).removeClass("coin-evt");
-						$("#" + temppieces[i]).unbind("click");
-						countRight++;
-						n--;
-					}
-				}
-				addClick();
+$("#done").click(function() {
+	if (mark) {
+		mark = false;
+		var move = pick(state);
+		var n = move[1];
+		var temppieces = pieces;
+		for (var i = 0; i < temppieces.length; i++) {
+			if (n != 0 && parseInt(temppieces[i] / 10) == move[0]) {
+				rightVal = -558 + 89 * (temppieces[i] % 10 - 1);
+				bottomVal = 100 + 92 * (parseInt(temppieces[i] / 10) - 1);
+				movegif(temppieces[i], rightVal, bottomVal);
+				$("#" + temppieces[i]).removeClass("coin-evt");
+				$("#" + temppieces[i]).unbind("click");
+				countRight++;
+				n--;
 			}
-		});
+		}
+		addClick();
+	}
+});
 
 function movegif(id, rightVal, bottomVal) {
 	$("#" + id).animate({
@@ -77,8 +72,8 @@ function movegif(id, rightVal, bottomVal) {
 	piece[0] = parseInt(id);
 	pieces = pieces.diff(piece); // 当前状态减去拿掉的硬币
 	var rowVal = parseInt(id / 10);// 拿的几排
-	state = state - Math.pow(10, 3 - rowVal);// 拿完状态
-	if (state == 1 || state == 10 || state == 100) {
+	state = state - Math.pow(10, 4 - rowVal);// 拿完状态
+	if (state == 1 || state == 10 || state == 100 || state == 1000) {
 		setTimeout(function() {
 			alert('game over!')
 		}, 500);
@@ -105,67 +100,89 @@ Array.prototype.diff = function(a) {
 function pick(temp) {
 	var num = matchNumber(temp);
 	var int0 = new Array(2);
-	if (num >= 100) {
+	if (num >= 1000) {
 		int0[0] = 1;
+		int0[1] = parseInt(num / 1000);
+	} else if (num >= 100) {
+		int0[0] = 2;
 		int0[1] = parseInt(num / 100);
 	} else if (num >= 10) {
-		int0[0] = 2;
+		int0[0] = 3;
 		int0[1] = parseInt(num / 10);
 	} else {
-		int0[0] = 3;
+		int0[0] = 4;
 		int0[1] = num;
 	}
 	return int0;
 }
+// 对照表添加着法
+function winMoves(row) {
+	board[0] = 1;
+	board[1] = 10;
+	board[2] = 100;
+	board[3] = 1000;
+	for (var i = 0; i <= 3; i++) {
+		for (var j = 0; j <= 5; j++) {
+			for (var k = 0; k <= 7; k++) {
+				for (var k1 = 0; k1 <= 9; k1++) {
+					var a = i * 1000 + j * 100 + k * 10 + k1;
+					var judge = true;
+					for (var k2 = 0; k2 < board.length; k2++) {
+						var b = board[k2];
+						var temp = 0;
+						if (i == parseInt(b / 1000)) {
+							temp++;
+						}
+						if (j == parseInt(b / 100) % 10) {
+							temp++;
+						}
+						if (k == parseInt(b / 10) % 10) {
+							temp++;
+						}
+						if (k1 == b % 10) {
+							temp++;
+						}
+						if (temp > 2) {
+							judge = false;
+							continue;
+						}
+					}
+					if (judge) {
+						board.push(a);
+					}
+				}
 
+			}
+		}
+	}
+}
 function matchNumber(integer) {
-
 	/**
-	 * 百位数：integer/100
+	 * 千位数：integer/1000
+	 * 
+	 * 百位数：integer/100%10
 	 * 
 	 * 十位数：integer/10%10
 	 * 
 	 * 个位数：integer%10
 	 */
-	// 只有一排有
-	if (integer % 100 == 0 && integer != 100) {
-		return integer - 100;
-	} else if (integer % 10 == 0 && integer > 10 && 100 > integer) {
-		return integer - 10;
-	} else if (integer < 10 && integer > 1) {
-		return integer - 1;
-	}
-
-	// *10 or *01
-	if ((integer % 10 == 0 && parseInt(integer / 10) % 10 == 1)
-			|| (integer % 10 == 1 && parseInt(integer / 10) % 10 == 0)) {
-		return parseInt(integer / 100) * 100;
-	}
-	// 1*0 or 0*1
-	if ((parseInt(integer / 100) == 1 && integer % 10 == 0)
-			|| (parseInt(integer / 100) == 0 && integer % 10 == 1)) {
-		return (parseInt(integer / 10) % 10) * 10;
-	}
-	// 10* or 01*
-	if ((parseInt(integer / 100) == 1 & parseInt(integer / 10) % 10 == 0)
-			|| (parseInt(integer / 100) == 0 && parseInt(integer / 10) % 10 == 1)) {
-		return integer % 10;
-	}
-
 	// 逐一对照，返回差数
-	for (i in board1) {
-		if (integer == board1[i]) {
-			if (parseInt(board1[i] / 100) != 0) {
+	for (i in board) {
+		if (integer == board[i]) {
+			if (parseInt(integer / 1000) != 0) {
+				return 1000;
+			} else if (parseInt(integer / 100) != 0) {
 				return 100;
-			} else {
+			} else if (parseInt(integer / 10) != 0) {
 				return 10;
 			}
 		}
-		if (integer > board1[i]) {
-			if ((integer - board1[i]) % 100 == 0
-					|| (parseInt(integer / 100) == parseInt(board1[i] / 100) && integer % 10 == board1[i] % 10)
-					|| parseInt(board1[i] / 10) == parseInt(integer / 10)) {
-				return integer - board1[i];
+		if (integer > board[i]) {
+			if ((integer - board[i]) % 1000 == 0
+					|| (parseInt(integer / 1000) == parseInt(board[i] / 1000) && integer % 100 == board[i] % 100)
+					|| (parseInt(board[i] / 100) == parseInt(integer / 100) && integer % 10 == board[i] % 10)
+					|| parseInt(board[i] / 10) == parseInt(integer / 10)) {
+				return integer - board[i];
 			}
 		}
 	}

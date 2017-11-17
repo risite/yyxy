@@ -1,20 +1,69 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
 public class pickCoin {
 	@Test
 	public void test() {
-		for(int i = 1;i<358;i++){
-			System.out.println(i+":::::"+Arrays.toString(pick(i)));
-			
+		// nums[1][0][0]=1;
+		// nums[0][1][0]=1;
+		// nums[0][0][1]=1;
+		// System.out.println(Arrays.toString(nums));
+		list.add(1);
+		list.add(10);
+		list.add(100);
+		list.add(1000);
+		step();
+		for(Integer integer : list){
+			System.out.println(integer);
+		}
+	}
+
+	List<Integer> list  = new ArrayList<Integer>();
+	
+	public void step() {
+		for (int i = 0; i <= 3; i++) {
+			for (int j = 0; j <= 5; j++) {
+				for (int k = 0; k <= 7; k++) {
+					for (int k1 = 0; k1 <= 9; k1++) {
+						int a = i*1000+j*100+k*10+k1;
+						boolean judge = true;
+						for (int k2 = 0; k2 < list.size(); k2++) {
+							int b = list.get(k2);
+							int temp = 0;
+							if (i==b/1000) {
+								temp++;
+							}
+							if (j==b/100%10) {
+								temp++;
+							}
+							if (k==b/10%10) {
+								temp++;
+							}
+							if (k1==b%10) {
+								temp++;
+							}
+							if (temp>2) {
+								judge=false;
+								continue;
+							}
+						}
+						if (judge) {
+							list.add(a);
+						}
+					}
+					
+				}
+			}
 		}
 	}
 
 	Integer[] board1 = { 356, 347, 330, 321, 312, 303, 257, 246, 231, 220, 213,
-			202, 154, 145, 132, 123, 111, 55, 44, 33, 22 };
+			202, 154, 145, 132, 123, 111, 100, 55, 44, 33, 22, 10, 1 };
 
 	/**
 	 * 拿硬币
@@ -36,15 +85,6 @@ public class pickCoin {
 	}
 
 	public int matchNumber(Integer integer) {
-
-		// 只有一排有
-		if (integer % 100 == 0 && integer != 100) {
-			return integer - 100;
-		} else if (integer % 10 == 0 && integer > 10 && 100 > integer) {
-			return integer - 10;
-		} else if (integer < 10 && integer > 1) {
-			return integer - 1;
-		}
 		/**
 		 * 百位数：integer/100
 		 * 
@@ -52,23 +92,6 @@ public class pickCoin {
 		 * 
 		 * 个位数：integer%10
 		 */
-
-		// *10 or *01
-		if ((integer % 10 == 0 && integer / 10 % 10 == 1)
-				|| (integer % 10 == 1 && integer / 10 % 10 == 0)) {
-			return integer / 100 * 100;
-		}
-		// 1*0 or 0*1
-		if ((integer / 100 == 1 && integer % 10 == 0)
-				|| (integer / 100 == 0 && integer % 10 == 1)) {
-			return (integer / 10 % 10) * 10;
-		}
-		// 10* or 01*
-		if ((integer / 100 == 1 & integer / 10 % 10 == 0)
-				|| (integer / 100 == 0 && integer / 10 % 10 == 1)) {
-			return integer % 10;
-		}
-
 		// 逐一对照，返回差数
 		for (int i : board1) {
 			if (integer == i) {
@@ -79,9 +102,9 @@ public class pickCoin {
 				}
 			}
 			if (integer > i) {
-				if ((integer - i) % 100 == 0
-						|| (integer / 100 == i / 100 && integer % 10 == i % 10)
-						|| i / 10 == integer / 10) {
+				if ((integer - i) % 100 == 0 // 百位不同
+						|| (integer / 100 == i / 100 && integer % 10 == i % 10)// 十位不同
+						|| i / 10 == integer / 10) {// 个位不同
 					return integer - i;
 				}
 			}
