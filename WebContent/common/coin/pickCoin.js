@@ -22,8 +22,8 @@ function addClick() {
 		$("#" + pieces[x]).addClass("coin-evt");
 		$("#" + pieces[x]).click(function() {
 			mark = true;
-			rightVal = 89 * (this.id % 10 - 1);
-			bottomVal = 100 + 92 * (parseInt(this.id / 10) - 1);
+			rightVal = 79 * (this.id % 10 - 1);
+			bottomVal = 90 + 79 * (parseInt(this.id / 10) - 1);
 			movegif(this.id, rightVal, bottomVal);
 			countLeft++;
 			removeClick(this.id);
@@ -32,9 +32,9 @@ function addClick() {
 }
 $(".coin-img").click(function() {
 	mark = true;
-	rightVal = 89 * (this.id % 10 - 1);
+	rightVal = 79 * (this.id % 10 - 1);
 	// rightVal = 80 * (this.id % 10 - 1) - 8 * (countLeft - this.id % 10);
-	bottomVal = 100 + 92 * (parseInt(this.id / 10) - 1);
+	bottomVal = 90 + 79 * (parseInt(this.id / 10) - 1);
 	movegif(this.id, rightVal, bottomVal);
 	countLeft++;
 	removeClick(this.id);
@@ -48,8 +48,8 @@ $("#done").click(function() {
 		var temppieces = pieces;
 		for (var i = 0; i < temppieces.length; i++) {
 			if (n != 0 && parseInt(temppieces[i] / 10) == move[0]) {
-				rightVal = -558 + 89 * (temppieces[i] % 10 - 1);
-				bottomVal = 100 + 92 * (parseInt(temppieces[i] / 10) - 1);
+				rightVal = -640 + 79 * (temppieces[i] % 10 - 1);
+				bottomVal = 90 + 79 * (parseInt(temppieces[i] / 10) - 1);
 				movegif(temppieces[i], rightVal, bottomVal);
 				$("#" + temppieces[i]).removeClass("coin-evt");
 				$("#" + temppieces[i]).unbind("click");

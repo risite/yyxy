@@ -4,8 +4,8 @@
 
 .open-modal {
 	position: relative;
-	left:180px;
-	top:-290px;
+	left:250px;
+	top:-340px;
 	border: none;
 	margin: 3em 0 7em 0;
 	background: #7D87AE;
@@ -21,16 +21,16 @@
 }
 
 .coin-img {
-	width: 85px;
-	height: 85px;
+	width: 75px;
+	height: 75px;
 	background :url(front0.png) ;
 	background-size:100% 100%;
 	position: relative;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .coin-evt {
-	width: 85px;
-	height: 85px;
+	width: 75px;
+	height: 75px;
 	background :url(front0.png) ;
 	background-size:100% 100%;
 	position: relative;
@@ -40,8 +40,8 @@
 	transform: scale(1.1);
 }
 .coin-remove {
-	width: 85px;
-	height: 85px;
+	width: 75px;
+	height: 75px;
 	background :url(front0.png) ;
 	background-size:100% 100%;
 	position: absolute;margin:0 auto;left:50%;margin-left:-300px;
@@ -59,8 +59,8 @@
 }
 
 tr{
-	height:90px;
+	height:75px;
 }
 tr td{
-	width:85px;
+	width:75px;
 }
