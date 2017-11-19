@@ -2,7 +2,11 @@
 <html>
 
 <head>
+<script src="common/fastclick.js" ></script>
 <script type="text/javascript">
+window.addEventListener( "load", function() {
+    FastClick.attach( document.body );
+}, false );
 	// Global variables
 	var ballX = 150; // Ball x position.
 	var ballY = 150; // Ball y position.
@@ -66,7 +70,7 @@
 				}
 			}
 		}
-
+		
 		mysvg.onclick = function(e) {
 			var x = e.offsetX;
 			var y = e.offsetY;

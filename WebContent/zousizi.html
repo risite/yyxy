@@ -12,7 +12,11 @@
 		style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
 		</canvas>
 </body>
+<script src="common/fastclick.js" ></script>
 <script type="text/javascript">
+	window.addEventListener( "load", function() {
+	    FastClick.attach( document.body );
+	}, false );
 	var _current = "white";//当前棋子
 	var tempi, tempj;//被选中的棋子
 	var countWhite = 0;// 白子总数
@@ -28,7 +32,6 @@
 	var context = canvas.getContext("2d");
 	context.lineWidth = 3;//线条的宽度
 	window.onload = function() {
-
 		for (var i = 0; i < 4; i++) {
 			chressBord[i][0] = "black";
 		}
