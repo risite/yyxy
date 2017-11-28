@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>井字棋</title>
+<style type="text/css">
+</style>
+</head>
+<body style="text-align: center; background-color: #BFEFFF;">
+	<h1>
+		井字棋</br>类似五子棋</br>先连成线取胜
+	</h1>
+	<canvas id="myCanvas" width="700" height="700"
+		style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); border: 0px solid">
+		</canvas>
+</body>
+<script src="common/fastclick.js"></script>
+<script type="text/javascript">
+	window.addEventListener("load", function() {
+		FastClick.attach(document.body);
+	}, false);
+	var _current = "ring";//当前ring圈，fork叉
+	var chessBord = [];//所有棋子
+	var count = 0;// 判断平局
+	for (var i = 0; i < 3; i++) {
+		chessBord[i] = [];
+		for (var j = 0; j < 3; j++) {
+			chessBord[i][j] = 0;
+		}
+	}
+	var canvas = document.getElementById("myCanvas");
+	var context = canvas.getContext("2d");
+	context.lineWidth = 3;//线条的宽度
+	window.onload = function() {
+		drawChessBoard(); // 画棋盘
+	}
+	canvas.onclick = function(e) {
+		var x = e.offsetX;
+		var y = e.offsetY;
+		var i = Math.floor((x - 20) / 220);
+		var j = Math.floor((y - 20) / 220);
+		// 		alert(x+" "+y+" "+i+" "+j+"")
+		if (chessBord[i][j] == 0 && _current != 0) {
+			context.beginPath();
+			context.lineWidth = 25;//线条的宽度
+			if ("ring" == _current) {
+				context.strokeStyle = "green";
+				context.arc(130 + i * 220, 130 + j * 220, 70, 0, 2 * Math.PI);// 画圆
+				context.closePath();
+				context.stroke();
+			} else if ("fork" == _current) {
+				context.strokeStyle = "red";
+				context.moveTo(65 + i * 220, 65 + j * 220);
+				context.lineTo(195 + i * 220, 195 + j * 220);
+				context.stroke();
+				context.moveTo(195 + i * 220, 65 + j * 220);
+				context.lineTo(65 + i * 220, 195 + j * 220);
+				context.stroke();
+			}
+			chessBord[i][j] = _current;
+			count++;
+			if ((chessBord[0][j] == _current && chessBord[1][j] == _current && chessBord[2][j] == _current)
+					|| (chessBord[i][0] == _current
+							&& chessBord[i][1] == _current && chessBord[i][2] == _current)
+					|| (chessBord[0][0] == _current
+							&& chessBord[1][1] == _current && chessBord[2][2] == _current)
+					|| (chessBord[2][0] == _current
+							&& chessBord[1][1] == _current && chessBord[0][2] == _current)) {
+				setTimeout(function() {
+					if (confirm(_current == "ring" ? "叉胜利，是否重新开始？"
+							: "圈胜利，是否重新开始？")) {
+						location.reload();
+					} else {
+						_current = 0;
+						return;
+					}
+				}, 100);
+			} else if(count==9){
+				setTimeout(function() {
+					if (confirm("平局，是否重新开始？")) {
+						location.reload();
+					} else {
+						_current = 0;
+						return;
+					}
+				}, 100);
+			}
+			_current == "ring" ? _current = "fork" : _current = "ring";
+		}
+	}
+	//绘画棋盘
+	var drawChessBoard = function() {
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		context.beginPath();
+		context.lineWidth = 8;//线条的宽度
+		context.strokeStyle = "black";
+		for (var i = 0; i < 2; i++) {
+			context.moveTo(240 + i * 220, 20);
+			context.lineTo(240 + i * 220, 680);
+			context.stroke();
+			context.moveTo(20, 240 + i * 220);
+			context.lineTo(680, 240 + i * 220);
+			context.stroke();
+		}
+	}
+
+	// 杀子
+	/*
+	 * params: id1,移动到了第几列 id2,移动到了第几排 shiorhu，移动的哪方 ways，杀子规则，四个数字分别表示： a，移到了第几排
+	 * b，相邻的是己方的棋子 c，最远的边上没子 d，要杀的子是对方的
+	 */
+	var ways = [ "0132", "1032", "1203", "1230", "2301", "2130", "2103", "3201" ];
+	function killChess(i, j) {
+		for (var x = 0; x < ways.length; x++) {
+			var way = ways[x];
+			var a = parseInt(way.substr(0, 1));
+			var b = parseInt(way.substr(1, 1));
+			var c = parseInt(way.substr(2, 1));
+			var d = parseInt(way.substr(3, 1));
+			if (i == a && chessBord[b][j] == chessBord[i][j]
+					&& chessBord[c][j] == 0 && chessBord[d][j] != 0
+					&& chessBord[d][j] != chessBord[i][j]) {
+				_current = chessBord[d][j];
+				chessBord[d][j] = 0;
+			}
+			if (j == a && chessBord[i][b] == chessBord[i][j]
+					&& chessBord[i][c] == 0 && chessBord[i][d] != 0
+					&& chessBord[i][d] != chessBord[i][j]) {
+				_current = chessBord[i][d];
+				chessBord[i][d] = 0;
+			}
+		}
+	}
+</script>
+</html>

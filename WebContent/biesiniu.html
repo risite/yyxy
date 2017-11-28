@@ -7,7 +7,7 @@
 </style>
 </head>
 <body style="text-align: center; background-color: #B0B0B0;">
-	<h1>走四子（走四棋儿），每步走一格（白先）</br>直线上两个棋子可顶掉对方的一个棋子</br>直至某方只剩下一个棋子（或无路可走）</h1>
+	<h1>憋死牛</br>将一方憋住无路可走，即赢</h1>
 	<canvas id="myCanvas" width="900" height="900"
 		style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
 		</canvas>
@@ -21,11 +21,11 @@
 	var tempi, tempj;//被选中的棋子
 	var countWhite = 0;// 白子总数
 	var countBlack = 0;//黑子总数
-	var chessBord = [];//所有棋子
+	var chressBord = [];//所有棋子
 	for (var i = 0; i < 4; i++) {
-		chessBord[i] = [];
+		chressBord[i] = [];
 		for (var j = 0; j < 4; j++) {
-			chessBord[i][j] = 0;
+			chressBord[i][j] = 0;
 		}
 	}
 	var canvas = document.getElementById("myCanvas");
@@ -33,10 +33,10 @@
 	context.lineWidth = 3;//线条的宽度
 	window.onload = function() {
 		for (var i = 0; i < 4; i++) {
-			chessBord[i][0] = "black";
+			chressBord[i][0] = "black";
 		}
 		for (var j = 0; j < 4; j++) {
-			chessBord[j][3] = "white";
+			chressBord[j][3] = "white";
 		}
 
 		drawChessBoard(); // 画棋盘
@@ -49,19 +49,19 @@
 		var j = Math.floor(y / 220);
 		if (Math.pow(x - 120 - i * 220, 2) + Math.pow(y - 120 - j * 220, 2) < 8100) {
 			// 棋子被选中
-			if (chessBord[i][j] != 0 && _current == chessBord[i][j]) {
+			if (chressBord[i][j] != 0 && _current == chressBord[i][j]) {
 				drawChessBoard();
 				drawChess();
 				drawChessIsSelected(i, j);
 			}
 			// 棋子移动
-			if (chessBord[i][j] == 0
-					&& _current == chessBord[tempi][tempj]
+			if (chressBord[i][j] == 0
+					&& _current == chressBord[tempi][tempj]
 					&& ((Math.abs(i - tempi) == 1 && tempj == j) || (tempi == i && Math
 							.abs(j - tempj) == 1))) {
 				_current == "white" ? _current = "black" : _current = "white";
-				chessBord[i][j] = chessBord[tempi][tempj];
-				chessBord[tempi][tempj] = 0;
+				chressBord[i][j] = chressBord[tempi][tempj];
+				chressBord[tempi][tempj] = 0;
 				killChess(i, j);
 				drawChessBoard();
 				drawChess();
@@ -94,14 +94,20 @@
 		context.beginPath();
 		context.lineWidth = 3;//线条的宽度
 		context.strokeStyle = "black";
-		for (var i = 0; i < 4; i++) {
-			context.moveTo(120 + i * 220, 120);
-			context.lineTo(120 + i * 220, 780);
+		for (var i = 0; i < 2; i++) {
+			context.moveTo(120 + i * 660, 120);
+			context.lineTo(120 + i * 660, 780);
 			context.stroke();
-			context.moveTo(120, 120 + i * 220);
-			context.lineTo(780, 120 + i * 220);
+			context.moveTo(120, 120 + i * 660);
+			context.lineTo(780, 120 + i * 660);
 			context.stroke();
 		}
+		context.moveTo(120, 780);
+		context.lineTo(780, 120);
+		context.stroke();
+		context.moveTo(120, 120);
+		context.lineTo(780, 780);
+		context.stroke();
 	}
 	//画棋子
 	var drawChess = function() {
@@ -109,7 +115,7 @@
 		countWhite = 0;
 		for (var i = 0; i < 4; i++) {
 			for (var j = 0; j < 4; j++) {
-				if (chessBord[i][j] != 0) {
+				if (chressBord[i][j] != 0) {
 					context.beginPath();
 					context.arc(120 + i * 220, 120 + j * 220, 90, 0,
 							2 * Math.PI);// 画圆
@@ -118,7 +124,7 @@
 					var gradient = context.createRadialGradient(
 							120 + i * 220 + 2, 120 + j * 220 - 2, 90,
 							120 + i * 220 + 2, 120 + j * 220 - 2, 0);
-					if ("black" == chessBord[i][j]) {
+					if ("black" == chressBord[i][j]) {
 						countBlack++;
 						gradient.addColorStop(0, '#0a0a0a');
 						gradient.addColorStop(1, '#636766');
@@ -158,17 +164,17 @@
 			var b = parseInt(way.substr(1, 1));
 			var c = parseInt(way.substr(2, 1));
 			var d = parseInt(way.substr(3, 1));
-			if (i == a && chessBord[b][j] == chessBord[i][j]
-					&& chessBord[c][j] == 0 && chessBord[d][j] != 0
-					&& chessBord[d][j] != chessBord[i][j]) {
-				_current = chessBord[d][j];
-				chessBord[d][j] = 0;
+			if (i == a && chressBord[b][j] == chressBord[i][j]
+					&& chressBord[c][j] == 0 && chressBord[d][j] != 0
+					&& chressBord[d][j] != chressBord[i][j]) {
+				_current = chressBord[d][j];
+				chressBord[d][j] = 0;
 			}
-			if (j == a && chessBord[i][b] == chessBord[i][j]
-					&& chessBord[i][c] == 0 && chessBord[i][d] != 0
-					&& chessBord[i][d] != chessBord[i][j]) {
-				_current = chessBord[i][d];
-				chessBord[i][d] = 0;
+			if (j == a && chressBord[i][b] == chressBord[i][j]
+					&& chressBord[i][c] == 0 && chressBord[i][d] != 0
+					&& chressBord[i][d] != chressBord[i][j]) {
+				_current = chressBord[i][d];
+				chressBord[i][d] = 0;
 			}
 		}
 	}
