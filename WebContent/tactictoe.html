@@ -104,32 +104,5 @@
 		}
 	}
 
-	// 杀子
-	/*
-	 * params: id1,移动到了第几列 id2,移动到了第几排 shiorhu，移动的哪方 ways，杀子规则，四个数字分别表示： a，移到了第几排
-	 * b，相邻的是己方的棋子 c，最远的边上没子 d，要杀的子是对方的
-	 */
-	var ways = [ "0132", "1032", "1203", "1230", "2301", "2130", "2103", "3201" ];
-	function killChess(i, j) {
-		for (var x = 0; x < ways.length; x++) {
-			var way = ways[x];
-			var a = parseInt(way.substr(0, 1));
-			var b = parseInt(way.substr(1, 1));
-			var c = parseInt(way.substr(2, 1));
-			var d = parseInt(way.substr(3, 1));
-			if (i == a && chessBord[b][j] == chessBord[i][j]
-					&& chessBord[c][j] == 0 && chessBord[d][j] != 0
-					&& chessBord[d][j] != chessBord[i][j]) {
-				_current = chessBord[d][j];
-				chessBord[d][j] = 0;
-			}
-			if (j == a && chessBord[i][b] == chessBord[i][j]
-					&& chessBord[i][c] == 0 && chessBord[i][d] != 0
-					&& chessBord[i][d] != chessBord[i][j]) {
-				_current = chessBord[i][d];
-				chessBord[i][d] = 0;
-			}
-		}
-	}
 </script>
 </html>
