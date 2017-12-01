@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>走四子</title>
+<title>憋死牛</title>
 <style type="text/css">
 </style>
 </head>
@@ -79,7 +79,7 @@
 			}
 		}
 	}
-	//绘画棋盘
+	// 绘画棋盘
 	var drawChessBoard = function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		context.beginPath();
@@ -100,7 +100,7 @@
 		context.lineTo(780, 780);
 		context.stroke();
 	}
-	//画棋子
+	// 画棋子
 	var drawChess = function() {
 		for (var i = 0; i < 5; i++) {
 			if (chessBoard[i][0] != 0) {
@@ -125,7 +125,7 @@
 
 		}
 	}
-	//画棋子被选中效果
+	// 画棋子被选中效果
 	var drawChessIsSelected = function(i) {
 		tempi = i;
 		context.beginPath();
