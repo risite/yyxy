@@ -83,6 +83,13 @@
 	var drawChessBoard = function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		context.beginPath();
+		context.lineWidth = 15;//线条的宽度
+		context.strokeStyle = "red";
+		context.arc(780, 450, 75, 0,
+				2 * Math.PI);// 画圆
+		context.stroke();
+		context.closePath();
+		context.beginPath();
 		context.lineWidth = 3;//线条的宽度
 		context.strokeStyle = "black";
 		for (var i = 0; i < 2; i++) {

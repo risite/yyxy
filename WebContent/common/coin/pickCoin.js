@@ -38,6 +38,18 @@ $(".coin-img").click(function() {
 	movegif(this.id, rightVal, bottomVal);
 	countLeft++;
 	removeClick(this.id);
+	if (state == 0) {
+		setTimeout(function() {
+			alert('您赢了!')
+		}, 500);
+		$("#done").unbind("click");
+		for (x in pieces) {
+			if (parseInt(pieces[x] / 10) != parseInt(id / 10)) {
+				$("#" + pieces[x]).removeClass("coin-evt");
+				$("#" + pieces[x]).unbind("click");
+			}
+		}
+	}
 });
 
 $("#done").click(function() {
@@ -59,6 +71,18 @@ $("#done").click(function() {
 		}
 		addClick();
 	}
+	if (state == 0) {
+		setTimeout(function() {
+			alert('您输了!')
+		}, 500);
+		$("#done").unbind("click");
+		for (x in pieces) {
+			if (parseInt(pieces[x] / 10) != parseInt(id / 10)) {
+				$("#" + pieces[x]).removeClass("coin-evt");
+				$("#" + pieces[x]).unbind("click");
+			}
+		}
+	}
 });
 
 function movegif(id, rightVal, bottomVal) {
@@ -73,18 +97,6 @@ function movegif(id, rightVal, bottomVal) {
 	pieces = pieces.diff(piece); // 当前状态减去拿掉的硬币
 	var rowVal = parseInt(id / 10);// 拿的几排
 	state = state - Math.pow(10, 4 - rowVal);// 拿完状态
-	if (state == 1 || state == 10 || state == 100 || state == 1000) {
-		setTimeout(function() {
-			alert('game over!')
-		}, 500);
-		$("#done").unbind("click");
-		for (x in pieces) {
-			if (parseInt(pieces[x] / 10) != parseInt(id / 10)) {
-				$("#" + pieces[x]).removeClass("coin-evt");
-				$("#" + pieces[x]).unbind("click");
-			}
-		}
-	}
 }
 
 // 数组取差

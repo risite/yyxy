@@ -33,6 +33,7 @@
 	context.lineWidth = 3;//线条的宽度
 	window.onload = function() {
 		drawChessBoard(); // 画棋盘
+		computerThink();_current = -_current;
 	}
 	canvas.onclick = function(e) {
 		var x = e.offsetX;
@@ -64,7 +65,9 @@
 					}
 				}, 100);
 			} else{
-				computerThink()
+				computerThink();
+// 				alert(note);
+				note=0;
 			}
 			_current = -_current;
 		}
@@ -115,6 +118,7 @@
 		}
 		return false;
 	}
+	var note=0;
 	function best(){
 		var bestx;
 		var besty;
@@ -122,11 +126,12 @@
 		for(var x=0;x<3;x++){
 			for(var y=0;y<3;y++){
 				if(chessBoard[x][y]==0){
+					note++;
 					chessBoard[x][y] = -1;
 					step++;
 					if(win(x,y)){
 						step--;
-						chessBoard[x][y] = 0;	
+						chessBoard[x][y] = 0;
 						return {'x':x,'y':y,'v':1};
 					}else if(step>=9){
 						step--;
@@ -154,7 +159,7 @@
 		for(var x=0;x<3;x++){
 			for(var y=0;y<3;y++){
 				if(chessBoard[x][y] == 0){
-					chessBoard[x][y] = 1;
+					chessBoard[x][y] = 1;note++;
 					step++;
 					if(win(x,y)){
 						step--;
