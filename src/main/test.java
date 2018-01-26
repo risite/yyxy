@@ -22,7 +22,9 @@ public class test {
 //			printArray((Integer[]) list.get(i));
 //		}
 //		System.out.prIntegerln("1324".substring(3,4));
-		System.out.println(Arrays.toString(getFibonacci(20)));
+//		System.out.println(Arrays.toString(getFibonacci(20)));
+		String s = "123";
+		System.out.println(lengthOfLongestSubstring("dvdf"));
 	}
 	
 	// 当前要走的棋子
@@ -30,7 +32,17 @@ public class test {
 	//所有步骤
 	Map map = new HashMap();
 	
-
+	public int lengthOfLongestSubstring(String s) {
+        int n = s.length(), ans = 0;
+        int[] index = new int[128]; // current index of character
+        // try to extend the range [i, j]
+        for (int j = 0, i = 0; j < n; j++) {
+            i = Math.max(index[s.charAt(j)], i);
+            ans = Math.max(ans, j - i + 1);
+            index[s.charAt(j)] = j + 1;
+        }
+        return ans;
+    }
 	/**
 	 * 走法生成器
 	 * 
