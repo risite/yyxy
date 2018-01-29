@@ -17,12 +17,12 @@ html, body {
 
 </style>
 </head>
-<body style="text-align: center; background-color: #00bcd4;">
+<body style="text-align: center; background-color: #607d8b;">
 <audio id="bgm" autoplay loop >
   <source src="" type="audio/mpeg"/>
 </audio>
 <!--闯关模式，迷雾，汉诺塔问题，鼓音效-->
-	<canvas id="myCanvas" width="400" height="600" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: ;border: 0px solid #E0FFFF;">
+	<canvas id="myCanvas" width="400" height="750" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: ;border: 0px solid #E0FFFF;">
 		</canvas>
 </body>
 <script src="common/jquery-3.2.1.min.js" type="text/javascript"></script>
@@ -58,8 +58,12 @@ html, body {
 	draw(ww*15/24, wh*27/48, true,'#EE6363','#CD5555','#8B3A3A');//IndianRed
 	draw(ww*12/24, wh*31/48, true,'#EE3B3B','#CD3333','#8B2323');//Brown
 	draw(ww*13/24, wh*35/48, true,'#EE9A00','#CD8500','#8B5A00');//Orange
-	draw(ww*9/24, wh*39/48, true,'#4EEE94','#43CD80','#2E8B57');
-	draw(ww*5/24, wh*43/48, true,'#4EEE94','#43CD80','#2E8B57');
+	draw(ww*9/24, wh*39/48, true,'#EE5C42','#CD4F39','#8B3626');//Tomato
+	draw(ww*5/24, wh*43/48, true,'#912CEE','#7D26CD','#551A8B');//Purple
+	draw(ww*7/24, wh*47/48, true,'#EE9A00','#7D26CD','#551A8B');//Purple
+	draw(ww*9/24, wh*51/48, true,'#912CEE','#7D26CD','#551A8B');//Purple
+	draw(ww*11/24, wh*55/48, true,'#912CEE','#7D26CD','#551A8B');//Purple
+	draw(ww*13/24, wh*59/48, true,'#912CEE','#7D26CD','#551A8B');//Purple
 	function draw(x, y, fill, color1, color2, color3) {
 		ctx.save();
 		ctx.translate(x, y);
@@ -79,12 +83,12 @@ html, body {
 				if(i==0){
 					grd = ctx.createLinearGradient(p[3][0], p[3][1], p[3][0]-100, p[3][1]-100); //（xStart,yStart）起点，（xEnd,yEnd）终点
 					grd.addColorStop(1, color3); //offset范围是0~1之间的浮点数，color是关键颜色 右3
-					grd.addColorStop(0, '#00bcd4'); //offset范围是0~1之间的浮点数，color是关键颜色
+					grd.addColorStop(0, '#607d8b'); //offset范围是0~1之间的浮点数，color是关键颜色
 				} else if (i==1){
 					grd.addColorStop(1, color1); //offset范围是0~1之间的浮点数，color是关键颜色 上1
 				} else {
 					grd.addColorStop(1, color2); //offset范围是0~1之间的浮点数，color是关键颜色 前2
-					grd.addColorStop(0, '#00bcd4'); //offset范围是0~1之间的浮点数，color是关键颜色
+					grd.addColorStop(0, '#607d8b'); //offset范围是0~1之间的浮点数，color是关键颜色
 				}
 				ctx.fillStyle = grd;
 				ctx.fill();
