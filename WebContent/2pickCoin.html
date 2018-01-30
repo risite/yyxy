@@ -7,14 +7,12 @@
 <title>pickCoin</title>
 <link rel="stylesheet" type="text/css" href="common/coin/default.css">
 </head>
-<body  onload="winMoves()" style="background-color: #607d8b;">
-
-	<div id="removeCoins" style="height: 100px;text-align:center;line-height: 120px;">
-		随机博弈，两方轮流，一次可拿任意一排的1-n个，最后拿完的赢
-	</div>
+<body  onload="winMoves()" style="text-align: center;background-color: #607d8b;">
+<h5 style="color: #b3b3b3">随机博弈，双方轮流</br>每次可拿任意一排的1-n个</br>最后拿完的赢</h5>
 	<div class="container"
 		style="width: 715px; height: 318px; border: 5px solid #7D87AE; text-align: center; margin: 0 auto">
-
+<audio id="myaudio" src="common/coin/3885.mp3">
+</audio>
 		<table id="board">
 			<tr>
 				<td><div class="coin-img coin-evt" id="11"></div></td>
@@ -73,6 +71,11 @@ function removeClick(id) {
 			$("#" + pieces[x]).unbind("click");
 		}
 	}
+}
+function soundPlay(){
+	var myAuto = document.getElementById('myaudio');
+	myAuto.currentTime = 0;
+	myAuto.play();
 }
 function addClick() {
 	for (x in pieces) {
@@ -142,7 +145,7 @@ function movegif(id, rightVal, bottomVal) {
 		bottom : bottomVal,
 		right : rightVal
 	}, 500);
-
+	soundPlay();
 	// 拿完之后的棋子
 	var piece = new Array(1);
 	piece[0] = parseInt(id);

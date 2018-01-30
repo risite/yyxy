@@ -2,15 +2,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>憋死牛</title>
 <style type="text/css">
 </style>
 </head>
 <body style="text-align: center; background-color: #607d8b;">
-	<h1>
-		憋死牛</br>将一方憋住无路可走，即赢
-	</h1>
-	<canvas id="myCanvas" width="900" height="900"
+	<h5 style="color: #b3b3b3">
+		憋死牛</br>将一方憋住无路可走</br>即赢
+	</h5>
+	<canvas id="myCanvas" width="360" height="360"
 		style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
 		</canvas>
 </body>
@@ -22,11 +23,11 @@
 	var _current = "white";//当前棋子
 	var tempi;//被选中的棋子
 	var chessBoard = [];//所有棋子
-	chessBoard[0] = [ 0, 450, 450 ];
-	chessBoard[1] = [ "white", 120, 120 ];
-	chessBoard[2] = [ "black", 780, 120 ];
-	chessBoard[3] = [ "black", 120, 780 ];
-	chessBoard[4] = [ "white", 780, 780 ];
+	chessBoard[0] = [ 0, 180, 180 ];
+	chessBoard[1] = [ "white", 48, 48 ];
+	chessBoard[2] = [ "black", 312, 48 ];
+	chessBoard[3] = [ "black", 48, 312 ];
+	chessBoard[4] = [ "white", 312, 312 ];
 
 	var canvas = document.getElementById("myCanvas");
 	var context = canvas.getContext("2d");
@@ -41,7 +42,7 @@
 		for (var i = 0; i < 5; i++) {
 
 			if (Math.pow(x - chessBoard[i][1], 2)
-					+ Math.pow(y - chessBoard[i][2], 2) < 8100) {
+					+ Math.pow(y - chessBoard[i][2], 2) < 1296) {
 				// 棋子被选中
 				if (chessBoard[i][0] != 0 && _current == chessBoard[i][0]) {
 					drawChessBoard();
@@ -83,9 +84,9 @@
 	var drawChessBoard = function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		context.beginPath();
-		context.lineWidth = 15;//线条的宽度
+		context.lineWidth = 8;//线条的宽度
 		context.strokeStyle = "red";
-		context.arc(780, 450, 75, 0,
+		context.arc(312, 180, 36, 0,
 				2 * Math.PI);// 画圆
 		context.stroke();
 		context.closePath();
@@ -93,18 +94,18 @@
 		context.lineWidth = 3;//线条的宽度
 		context.strokeStyle = "black";
 		for (var i = 0; i < 2; i++) {
-			context.moveTo(120, 120 + i * 660);
-			context.lineTo(780, 120 + i * 660);
+			context.moveTo(48, 48 + i * 264);
+			context.lineTo(312, 48 + i * 264);
 			context.stroke();
 		}
-		context.moveTo(120, 120);
-		context.lineTo(120, 780);
+		context.moveTo(48, 48);
+		context.lineTo(48, 312);
 		context.stroke();
-		context.moveTo(120, 780);
-		context.lineTo(780, 120);
+		context.moveTo(48, 312);
+		context.lineTo(312, 48);
 		context.stroke();
-		context.moveTo(120, 120);
-		context.lineTo(780, 780);
+		context.moveTo(48, 48);
+		context.lineTo(312, 312);
 		context.stroke();
 	}
 	// 画棋子
@@ -112,12 +113,12 @@
 		for (var i = 0; i < 5; i++) {
 			if (chessBoard[i][0] != 0) {
 				context.beginPath();
-				context.arc(chessBoard[i][1], chessBoard[i][2], 90, 0,
+				context.arc(chessBoard[i][1], chessBoard[i][2], 36, 0,
 						2 * Math.PI);// 画圆
 				context.closePath();
 				//渐变
 				var gradient = context.createRadialGradient(
-						chessBoard[i][1] + 2, chessBoard[i][2] - 2, 90,
+						chessBoard[i][1] + 2, chessBoard[i][2] - 2, 36,
 						chessBoard[i][1] + 2, chessBoard[i][2] - 2, 0);
 				if ("black" == chessBoard[i][0]) {
 					gradient.addColorStop(0, '#0a0a0a');
@@ -137,7 +138,7 @@
 		tempi = i;
 		context.beginPath();
 		context.strokeStyle = "green";
-		context.arc(chessBoard[i][1], chessBoard[i][2], 90, 0, 2 * Math.PI);// 画圆
+		context.arc(chessBoard[i][1], chessBoard[i][2], 36, 0, 2 * Math.PI);// 画圆
 		context.lineWidth = 5;//线条的宽度
 		context.closePath();
 		context.stroke();

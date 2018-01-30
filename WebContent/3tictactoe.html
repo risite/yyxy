@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>井字棋</title>
 <style type="text/css">
 </style>
 </head>
 <body style="text-align: center; background-color: #607d8b;">
-	<h1>
+	<h5 style="color: #b3b3b3">
 		井字棋</br>类似五子棋</br>先连成线取胜
-	</h1>
-	<canvas id="myCanvas" width="700" height="700"
-		style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); border: 1px solid">
+	</h5>
+	<canvas id="myCanvas" width="350" height="350"
+		style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); border: 0px solid">
 		</canvas>
 </body>
 <script src="common/fastclick.js"></script>
@@ -38,8 +38,8 @@
 	canvas.onclick = function(e) {
 		var x = e.offsetX;
 		var y = e.offsetY;
-		var i = Math.floor((x - 20) / 220);
-		var j = Math.floor((y - 20) / 220);
+		var i = Math.floor((x - 10) / 110);
+		var j = Math.floor((y - 10) / 110);
 		// 		alert(x+" "+y+" "+i+" "+j+"")
 		if (chessBoard[i][j] == 0 && _current != 0) {
 			chessBoard[i][j] = _current;
@@ -189,32 +189,32 @@
 	var drawChessBoard = function() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		context.beginPath();
-		context.lineWidth = 8;//线条的宽度
+		context.lineWidth = 3;//线条的宽度
 		context.strokeStyle = "black";
 		for (var i = 0; i < 2; i++) {
-			context.moveTo(240 + i * 220, 20);
-			context.lineTo(240 + i * 220, 680);
+			context.moveTo(120 + i * 110, 10);
+			context.lineTo(120 + i * 110, 340);
 			context.stroke();
-			context.moveTo(20, 240 + i * 220);
-			context.lineTo(680, 240 + i * 220);
+			context.moveTo(10, 120 + i * 110);
+			context.lineTo(340, 120 + i * 110);
 			context.stroke();
 		}
 	}
 	var drawChess = function(i,j) {
 		context.beginPath();
-		context.lineWidth = 25;//线条的宽度
+		context.lineWidth = 10;//线条的宽度
 		if (1 == chessBoard[i][j]) {
 			context.strokeStyle = "green";
-			context.arc(130 + i * 220, 130 + j * 220, 70, 0, 2 * Math.PI);// 画圆
+			context.arc(65 + i * 110, 65 + j * 110, 35, 0, 2 * Math.PI);// 画圆
 			context.closePath();
 			context.stroke();
 		} else if (-1 == chessBoard[i][j]) {
 			context.strokeStyle = "red";
-			context.moveTo(65 + i * 220, 65 + j * 220);
-			context.lineTo(195 + i * 220, 195 + j * 220);
+			context.moveTo(33 + i * 110, 33 + j * 110);
+			context.lineTo(98 + i * 110, 98 + j * 110);
 			context.stroke();
-			context.moveTo(195 + i * 220, 65 + j * 220);
-			context.lineTo(65 + i * 220, 195 + j * 220);
+			context.moveTo(98 + i * 110, 33 + j * 110);
+			context.lineTo(33 + i * 110, 98 + j * 110);
 			context.stroke();
 		}
 	}
