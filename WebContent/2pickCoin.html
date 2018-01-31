@@ -10,7 +10,7 @@
 <body  onload="winMoves()" style="text-align: center;background-color: #607d8b;">
 <h5 style="color: #b3b3b3">随机博弈，双方轮流</br>每次可拿任意一排的1-n个</br>最后拿完的赢</h5>
 	<div class="container"
-		style="width: 715px; height: 318px; border: 5px solid #7D87AE; text-align: center; margin: 0 auto">
+		style="width:360px; height: 300px; border: 0px solid #7D87AE; text-align: center; margin: 0 auto">
 <audio id="myaudio" src="common/coin/3885.mp3">
 </audio>
 		<table id="board">
@@ -82,8 +82,8 @@ function addClick() {
 		$("#" + pieces[x]).addClass("coin-evt");
 		$("#" + pieces[x]).click(function() {
 			mark = true;
-			rightVal = 79 * (this.id % 10 - 1);
-			bottomVal = 90 + 79 * (parseInt(this.id / 10) - 1);
+			rightVal = 39 * (this.id % 10 - 1);
+			bottomVal = 70 + 39 * (parseInt(this.id / 10) - 1);
 			movegif(this.id, rightVal, bottomVal);
 			win();
 			countLeft++;
@@ -93,9 +93,9 @@ function addClick() {
 }
 $(".coin-img").click(function() {
 	mark = true;
-	rightVal = 79 * (this.id % 10 - 1);
+	rightVal = 39 * (this.id % 10 - 1);
 	// rightVal = 80 * (this.id % 10 - 1) - 8 * (countLeft - this.id % 10);
-	bottomVal = 90 + 79 * (parseInt(this.id / 10) - 1);
+	bottomVal = 70 + 39 * (parseInt(this.id / 10) - 1);
 	movegif(this.id, rightVal, bottomVal);
 	win();
 	countLeft++;
@@ -109,8 +109,8 @@ $("#done").click(function() {
 		var temppieces = pieces;
 		for (var i = 0; i < temppieces.length; i++) {
 			if (n != 0 && parseInt(temppieces[i] / 10) == move[0]) {
-				rightVal = -640 + 79 * (temppieces[i] % 10 - 1);
-				bottomVal = 90 + 79 * (parseInt(temppieces[i] / 10) - 1);
+				rightVal = -320 + 39 * (temppieces[i] % 10 - 1);
+				bottomVal = 70 + 39 * (parseInt(temppieces[i] / 10) - 1);
 				movegif(temppieces[i], rightVal, bottomVal);
 				$("#" + temppieces[i]).removeClass("coin-evt");
 				$("#" + temppieces[i]).unbind("click");
@@ -126,9 +126,19 @@ function win(){
 	if (state == 0) {
 		setTimeout(function() {
 			if(mark){
-				alert('You won my stupid AI ( *^_^* )');
+				setTimeout(function() {
+					if (confirm('You won my stupid AI ( *^_^* ) restart?')) {
+						location.reload();
+					} else {
+					}
+				}, 100);
 			} else {
-				alert('You lost ( *^_^* )');
+				setTimeout(function() {
+					if (confirm('You lost ( *^_^* ) restart?')) {
+						location.reload();
+					} else {
+					}
+				}, 100);
 			}
 		}, 500);
 		$("#done").unbind("click");
