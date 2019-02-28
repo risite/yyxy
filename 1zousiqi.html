@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>走四棋儿</title>
+<link rel="shortcut icon" href="common/favicon.ico" type="image/x-icon">
+<style type="text/css">
+</style>
+</head>
+<body style="text-align: center; background-color:	#607d8b;">
+	<h5 style="color: #b3b3b3">走四棋儿，每步走一格（白先）</br>直线上两个棋子可顶掉对方的一个棋子</br>直至某方只剩下一个棋子（或无路可走）</h5>
+	<canvas id="myCanvas" width="360" height="360"
+		style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);border:0px solid">
+		</canvas>
+</body>
+<script src="common/fastclick.js" ></script>
+<script type="text/javascript">
+	window.addEventListener( "load", function() {
+	    FastClick.attach( document.body );
+	}, false );
+	var _current = "white";//当前棋子
+	var tempi, tempj;//被选中的棋子
+	var countWhite = 0;// 白子总数
+	var countBlack = 0;//黑子总数
+	var chessBord = [];//所有棋子
+	for (var i = 0; i < 4; i++) {
+		chessBord[i] = [];
+		for (var j = 0; j < 4; j++) {
+			chessBord[i][j] = 0;
+		}
+	}
+	var canvas = document.getElementById("myCanvas");
+	var context = canvas.getContext("2d");
+	context.lineWidth = 3;//线条的宽度
+	window.onload = function() {
+		for (var i = 0; i < 4; i++) {
+			chessBord[i][0] = "black";
+		}
+		for (var j = 0; j < 4; j++) {
+			chessBord[j][3] = "white";
+		}
+
+		drawChessBoard(); // 画棋盘
+		drawChess();// 画棋子
+	}
+	canvas.onclick = function(e) {
+		var x = e.offsetX;
+		var y = e.offsetY;
+		var i = Math.floor(x / 88);
+		var j = Math.floor(y / 88);
+		if (Math.pow(x - 48 - i * 88, 2) + Math.pow(y - 48 - j * 88, 2) < 1296) {
+			// 棋子被选中
+			if (chessBord[i][j] != 0 && _current == chessBord[i][j]) {
+				drawChessBoard();
+				drawChess();
+				drawChessIsSelected(i, j);
+			}
+			// 棋子移动
+			if (chessBord[i][j] == 0
+					&& _current == chessBord[tempi][tempj]
+					&& ((Math.abs(i - tempi) == 1 && tempj == j) || (tempi == i && Math
+							.abs(j - tempj) == 1))) {
+				_current == "white" ? _current = "black" : _current = "white";
+				chessBord[i][j] = chessBord[tempi][tempj];
+				chessBord[tempi][tempj] = 0;
+				killChess(i, j);
+				drawChessBoard();
+				drawChess();
+				drawChessIsSelected(tempi, tempj);
+				drawChessIsSelected(i, j);
+				if (countWhite <= 1) {
+					setTimeout(function() {
+						if (confirm("黑棋胜利，是否重新开始？")) {
+							location.reload();
+						} else {
+							_current=0;
+						}
+					}, 100);
+				}
+				if (countBlack <= 1) {
+					setTimeout(function() {
+						if (confirm("白棋胜利，是否重新开始？")) {
+							location.reload();
+						} else {
+							_current=0;
+						}
+					}, 100);
+				}
+			}
+		}
+	}
+	//绘画棋盘
+	var drawChessBoard = function() {
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		context.beginPath();
+		context.lineWidth = 3;//线条的宽度
+		context.strokeStyle = "black";
+		for (var i = 0; i < 4; i++) {
+			context.moveTo(48 + i * 88, 48);
+			context.lineTo(48 + i * 88, 312);
+			context.stroke();
+			context.moveTo(48, 48 + i * 88);
+			context.lineTo(312, 48 + i * 88);
+			context.stroke();
+		}
+	}
+	//画棋子
+	var drawChess = function() {
+		countBlack = 0;
+		countWhite = 0;
+		for (var i = 0; i < 4; i++) {
+			for (var j = 0; j < 4; j++) {
+				if (chessBord[i][j] != 0) {
+					context.beginPath();
+					context.arc(48 + i * 88, 48 + j * 88, 36, 0,
+							2 * Math.PI);// 画圆
+					context.closePath();
+					//渐变
+					var gradient = context.createRadialGradient(
+							48 + i * 88 + 2, 48 + j * 88 - 2, 36,
+							48 + i * 88 + 2, 48 + j * 88 - 2, 0);
+					if ("black" == chessBord[i][j]) {
+						countBlack++;
+						gradient.addColorStop(0, '#0a0a0a');
+						gradient.addColorStop(1, '#636766');
+					} else {
+						countWhite++;
+						gradient.addColorStop(0, '#d1d1d1');
+						gradient.addColorStop(1, '#f9f9f9');
+					}
+					context.fillStyle = gradient;
+					context.fill();
+				}
+
+			}
+		}
+	}
+	//画棋子被选中效果
+	var drawChessIsSelected = function(i, j) {
+		tempi = i;
+		tempj = j;
+		context.beginPath();
+		context.strokeStyle = "green";
+		context.arc(48 + i * 88, 48 + j * 88, 36, 0, 2 * Math.PI);// 画圆
+		context.lineWidth = 4;//线条的宽度
+		context.closePath();
+		context.stroke();
+	}
+	// 杀子
+	/*
+	 * params: id1,移动到了第几列 id2,移动到了第几排 shiorhu，移动的哪方 ways，杀子规则，四个数字分别表示： a，移到了第几排
+	 * b，相邻的是己方的棋子 c，最远的边上没子 d，要杀的子是对方的
+	 */
+	var ways = [ "0132", "1032", "1203", "1230", "2301", "2130", "2103", "3201" ];
+	function killChess(i, j) {
+		for (var x = 0; x < ways.length; x++) {
+			var way = ways[x];
+			var a = parseInt(way.substr(0, 1));
+			var b = parseInt(way.substr(1, 1));
+			var c = parseInt(way.substr(2, 1));
+			var d = parseInt(way.substr(3, 1));
+			if (i == a && chessBord[b][j] == chessBord[i][j]
+					&& chessBord[c][j] == 0 && chessBord[d][j] != 0
+					&& chessBord[d][j] != chessBord[i][j]) {
+				_current = chessBord[d][j];
+				chessBord[d][j] = 0;
+			}
+			if (j == a && chessBord[i][b] == chessBord[i][j]
+					&& chessBord[i][c] == 0 && chessBord[i][d] != 0
+					&& chessBord[i][d] != chessBord[i][j]) {
+				_current = chessBord[i][d];
+				chessBord[i][d] = 0;
+			}
+		}
+	}
+</script>
+</html>
