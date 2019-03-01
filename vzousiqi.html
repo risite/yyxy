@@ -20,7 +20,7 @@
     }
 
     .list-complete-item {
-      transition: all 0.3s;
+      /* transition: all 0.3s; */
       float: left;
       width: 3em;
       height: 3em;
@@ -185,7 +185,7 @@
    * ways：杀子规则，
    * a:移到了a排，b:相邻的b排是己方的棋子，c:c排的是对方的棋子，d:最远的d排上没子
    */
-  function killzi(name, val) {
+  const killzi = (name, val) => {
     const row = parseInt(name / 10)
     const col = name % 10
     const ways = [
