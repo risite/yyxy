@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<script src="js/fastclick.js" ></script>
+<script type="text/javascript">
+window.addEventListener( "load", function() {
+    FastClick.attach( document.body );
+}, false );
+	// Global variables
+	var ballX = 150; // Ball x position.
+	var ballY = 150; // Ball y position.
+	var ballDX = 2; // Change in ball x position.
+	var ballDY = 4; // Change in ball y position.
+	var boardX = 300; // Board width.
+	var boardY = 300; // Board height.
+	var paddleX = 150; // Initial paddle location.
+	var paddleH = 10; // Paddle height.
+	var paddleD = boardY - paddleH; // Paddle depth.
+	var paddleW = 150; // Paddle width.
+
+	// This function is called on page load.
+
+	function drawGameSVG() {
+
+		// Play the game until the ball stops.
+		//         gameLoop = setInterval(drawBall, 16);
+		//         drawBall();
+		// Add keyboard listener.
+		drawChessBoard();
+		window.addEventListener('keydown', whatKey, true);
+	}
+	function drawChessBoard() {
+		var mysvg = document.getElementById("svg");
+		for (var i = 0; i < 4; i++) {
+			var line = document.createElementNS("http://www.w3.org/2000/svg",
+					"line");
+			line.setAttribute("x1", 120 + i * 220);
+			line.setAttribute("y1", 120);
+			line.setAttribute("x2", 120 + i * 220);
+			line.setAttribute("y2", 780);
+			line.setAttribute("style",
+					"fill:none;stroke-width:3;stroke:rgb(0,0,0)");
+			mysvg.appendChild(line);
+			var line2 = document.createElementNS("http://www.w3.org/2000/svg",
+					"line");
+			line2.setAttribute("x1", 120);
+			line2.setAttribute("y1", 120 + i * 220);
+			line2.setAttribute("x2", 780);
+			line2.setAttribute("y2", 120 + i * 220);
+			line2.setAttribute("style",
+					"fill:none;stroke-width:3;stroke:rgb(0,0,0)");
+			mysvg.appendChild(line2);
+		}
+
+		for (var i = 0; i < 4; i++) {
+			for (var j = 0; j < 4; j++) {
+				var circle = document.createElementNS(
+						"http://www.w3.org/2000/svg", "circle");
+				circle.setAttribute("id", "" + i + j);
+				circle.setAttribute("cx", 120 + i * 220);
+				circle.setAttribute("cy", 120 + j * 220);
+				circle.setAttribute("r", 90);
+				if (j == 0) {
+					circle.setAttribute("style", "fill:url(#black)");
+					mysvg.appendChild(circle);
+				} else if (j == 3) {
+					circle.setAttribute("style", "fill:url(#white)");
+					mysvg.appendChild(circle);
+				}
+			}
+		}
+		
+		mysvg.onclick = function(e) {
+			var x = e.offsetX;
+			var y = e.offsetY;
+			var i = Math.floor(x / 220);
+			var j = Math.floor(y / 220);
+			if (Math.pow(x - 130 - i * 220, 2) + Math.pow(y - 130 - j * 220, 2) < 8100) {
+				var circle = document.getElementById("" + i + j);
+				if (circle) {
+					circle.setAttribute("cy", 120 + j * 220 - 220);
+					j -= 1;
+					circle.setAttribute("id", "" + i + j);
+				}
+				//oneStep(i,j,true);
+			}
+		}
+	}
+	function drawBall() {
+
+		// Change the ball location.
+		ballX += ballDX;
+		ballY += ballDY;
+		ball.setAttribute("cx", ballX);
+		ball.setAttribute("cy", ballY);
+
+		// Bounce on a left or right edge.
+		if (ballX + ballDX > boardX - 15 || ballX + ballDX < 15)
+			ballDX = -ballDX;
+
+		// If ball hits the top, bounce it. 
+		if (ballY + ballDY < 15)
+			ballDY = -ballDY;
+		// If the ball hits the bottom, check see if it hits a paddle.
+		else if (ballY + ballDY > boardY - 15) {
+			// If the ball hits the paddle, bounce it.
+			if (ballX > paddleX && ballX < paddleX + paddleW)
+				ballDY = -ballDY;
+			// Otherwise the game is over.
+			else {
+				clearInterval(gameLoop);
+				alert("Game over!");
+			}
+		}
+	}
+
+	// Get key press.
+
+	function whatKey(evt) {
+
+		switch (evt.keyCode) {
+		// Left arrow.
+		case 37:
+			paddleX = paddleX - 20;
+			if (paddleX < 0)
+				paddleX = 0;
+			paddle.setAttribute("x", paddleX);
+			break;
+
+		// Right arrow.
+		case 39:
+			paddleX = paddleX + 20;
+			if (paddleX > boardX - paddleW)
+				paddleX = boardX - paddleW;
+			paddle.setAttribute("x", paddleX);
+			break;
+		}
+	}
+</script>
+</head>
+
+<body style="text-align:center;background-color: #B0B0B0;" onload="drawGameSVG()">
+	<h1>SVG Racketball</h1>
+	<!-- Create the SVG pane. -->
+	<svg id="svg" xmlns="http://www.w3.org/2000/svg" height="900"
+		width="900" style="-webkit-tap-highlight-color:rgba(0,0,0,0);">
+		<defs>
+    <radialGradient id="black" cx="50%" cy="50%" r="50%" fx="50%"
+			fy="50%">
+      <stop offset="0%"
+			style="stop-color:#636766;" />
+      <stop offset="100%" style="stop-color:#0a0a0a;" />
+    </radialGradient>
+    <radialGradient id="white" cx="50%" cy="50%" r="50%" fx="50%"
+			fy="50%">
+      <stop offset="0%"
+			style="stop-color:#f9f9f9;" />
+      <stop offset="100%" style="stop-color:#d1d1d1;" />
+    </radialGradient>
+  </defs>
+      <!-- Create the board. -->
+    </svg>
+</body>
+
+</html>

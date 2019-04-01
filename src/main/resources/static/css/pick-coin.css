@@ -1,0 +1,64 @@
+.open-modal:hover {
+	background: #6d78a5;
+}
+
+.open-modal {
+	position: relative;
+	border: none;
+	margin: 3em 0 7em 0;
+	background: #7D87AE;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 13px;
+	padding: 1em 2em;
+	font-weight: bold;
+	border-radius: 40px;
+	-webkit-transition: background 0.3s;
+	transition: background 0.3s;
+}
+
+.coin-img {
+	width: 35px;
+	height: 35px;
+	background :url(../img/front0.png) ;
+	background-size:100% 100%;
+	position: relative;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.coin-evt {
+	width: 35px;
+	height: 35px;
+	background :url(../img/front0.png) ;
+	background-size:100% 100%;
+	position: relative;
+}
+.coin-evt:hover {
+	cursor: pointer;
+	transform: scale(1.1);
+}
+.coin-remove {
+	width: 35px;
+	height: 35px;
+	background :url(../img/front0.png) ;
+	background-size:100% 100%;
+	position: absolute;margin:0 auto;left:50%;margin-left:-350px;
+	animation: myfirst 1s ease-out 0s alternate;
+	/* Firefox: */
+	-moz-animation: myfirst 1s ease-out 0s alternate;
+	/* Safari and Chrome: */
+	-webkit-animation: myfirst 1s ease-out 0s alternate;
+	/* Opera: */
+	-o-animation: myfirst 1s ease-out 0s alternate;
+}
+@keyframes myfirst {
+	from { left:50%; top: 175px; }
+	to { left: 50%; top: 10px; }
+}
+
+tr{
+	height:35px;
+}
+tr td{
+	width:35px;
+}

@@ -1,5 +1,9 @@
 package main;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,8 +27,27 @@ public class test {
 //		}
 //		System.out.prIntegerln("1324".substring(3,4));
 //		System.out.println(Arrays.toString(getFibonacci(20)));
-		String s = "123";
-		System.out.println(lengthOfLongestSubstring("dvdf"));
+//        String str="China12";
+//        System.out.println(str.replaceAll("(\\d{1})(\\d{1,})", "*$2"));
+//		String s = "123";
+//		System.out.println(lengthOfLongestSubstring("dvdf"));
+		LocalDate today = LocalDate.now();
+		// 今天加一天
+		
+		LocalDate tomorrow = today.plus(1, ChronoUnit.DAYS);
+		// 明天减两天
+		LocalDate yesterday = tomorrow.minusDays(2);
+		System.out.println(today);
+		System.out.println(tomorrow);
+		System.out.println(yesterday);
+		// 2014 年七月的第四天
+		LocalDate independenceDay = LocalDate.of(2019,3,27);
+		System.out.println(independenceDay);
+		DayOfWeek dayOfWeek = independenceDay.getDayOfWeek();
+		System.out.println(independenceDay.getDayOfMonth());    // 星期五
+
+		
+		
 	}
 	
 	// 当前要走的棋子

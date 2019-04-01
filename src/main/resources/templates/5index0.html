@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ygame</title>
+<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+</style>
+</head>
+<body style="text-align: center; background-color: #607d8b;">
+<audio id="bgm" autoplay loop >
+  <source src="" type="audio/mpeg"/>
+</audio>
+<!--闯关模式，迷雾，汉诺塔问题，鼓音效-->
+	<canvas id="myCanvas" width="400" height="700" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); border: 0px solid #E0FFFF;">
+		</canvas>
+</body>
+<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var bgm = document.getElementById("bgm");
+	bgm.volume=0.3;
+	var isPlay = true;
+	var ww = 300;
+	var wh = 600;
+	var canvas = document.getElementById("myCanvas"), ctx = canvas
+			.getContext("2d"), x = ww/6, y = wh/3, z = ww/8;
+	var points = [
+			[ 0, 0 ],
+			[ x, 0 ],
+			[ x, -y ],
+			[ 0, -y ],
+			[ z * Math.cos(45 * Math.PI / 180),
+					-z * Math.sin(45 * Math.PI / 180) ],
+			[ z * Math.cos(45 * Math.PI / 180),
+					-y - z * Math.sin(45 * Math.PI / 180) ],
+			[ x + z * Math.cos(45 * Math.PI / 180),
+					-z * Math.sin(45 * Math.PI / 180) ],
+			[ x + z * Math.cos(45 * Math.PI / 180),
+					-y - z * Math.sin(45 * Math.PI / 180) ] ];
+	var faces = [ 
+	[ points[1], points[2], points[7], points[6] ], //右
+	[ points[2], points[3], points[5], points[7] ], //上
+	[ points[0], points[3], points[2], points[1] ], //前
+	]
+	draw(ww*18/24, wh*15/48, true,'#4EEE94','#43CD80','#2E8B57');//SeaGreen
+	draw(ww*15/24, wh*19/48, true,'#00EEEE','#00CDCD','#008B8B');//Cyan
+	draw(ww*14/24, wh*23/48, true,'#EEEE00','#CDCD00','#8B8B00');//Yellow
+	draw(ww*15/24, wh*27/48, true,'#EE6363','#CD5555','#8B3A3A');//IndianRed
+	draw(ww*12/24, wh*31/48, true,'#EE3B3B','#CD3333','#8B2323');//Brown
+	draw(ww*13/24, wh*35/48, true,'#EE9A00','#CD8500','#8B5A00');//Orange
+	draw(ww*9/24, wh*39/48, true,'#B5B5B5','#828282','#4F4F4F');//grey
+	draw(ww*5/24, wh*43/48, true,'#9F79EE','#8968CD','#5D478B');//MediumPurple
+	draw(ww*8/24, wh*46/48, true,'#EED2EE','#CDB5CD','#8B7B8B');//Thistle
+	draw(ww*11/24, wh*49/48, true,'#B9D3EE','#9FB6CD','#6C7B8B');//SlateGray
+	draw(ww*14/24, wh*52/48, true,'#EE5C42','#CD4F39','#8B3626');//Tomato
+	draw(ww*17/24, wh*55/48, true,'#7EC0EE','#6CA6CD','#4A708B');//SkyBlue
+	function draw(x, y, fill, color1, color2, color3) {
+		ctx.save();
+		ctx.translate(x, y);
+		for (var i = 0, len = faces.length; i < len; i++) {
+			var p = faces[i];
+			ctx.beginPath();
+			for (var j = 0, l = p.length; j < l; j++) {
+				if (j == 0) {
+					ctx.moveTo(p[j][0], p[j][1]);
+				} else {
+					ctx.lineTo(p[j][0], p[j][1]);
+				}
+			}
+			ctx.closePath();
+			var grd = ctx.createLinearGradient(p[0][0], p[0][1], p[1][0], p[1][1]); //（xStart,yStart）起点，（xEnd,yEnd）终点
+			if (fill) {
+				if(i==0){
+					grd = ctx.createLinearGradient(p[3][0], p[3][1], p[3][0]-100, p[3][1]-100); //（xStart,yStart）起点，（xEnd,yEnd）终点
+					grd.addColorStop(1, color3); //offset范围是0~1之间的浮点数，color是关键颜色 右3
+					grd.addColorStop(0, '#607d8b'); //offset范围是0~1之间的浮点数，color是关键颜色
+				} else if (i==1){
+					grd.addColorStop(1, color1); //offset范围是0~1之间的浮点数，color是关键颜色 上1
+				} else {
+					grd.addColorStop(1, color2); //offset范围是0~1之间的浮点数，color是关键颜色 前2
+					grd.addColorStop(0, '#607d8b'); //offset范围是0~1之间的浮点数，color是关键颜色
+				}
+				ctx.fillStyle = grd;
+				ctx.fill();
+			} else {
+				ctx.stroke();
+			}
+		}
+		ctx.restore();
+	}
+	function randC() {
+		return 'rgb(' + (~~(Math.random() * 255)) + ","
+				+ (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255))
+				+ ")";
+	}
+	
+	canvas.onclick = function(e) {
+		if(isPlay){
+			bgm.pause();
+			isPlay=false;
+		} else {
+			bgm.play();
+			isPlay=true;
+		}
+		var x = e.offsetX;
+		var y = e.offsetY;
+// 		ctx.beginPath();
+// 		ctx.rect(0, 0, 400, 600);// 画圆
+// 		ctx.closePath();
+// 		ctx.fillStyle = "rgba(205,179,139,0.3)";
+// 		ctx.fill();
+// 		ctx.fillRect();
+	}
+</script>
+</html>

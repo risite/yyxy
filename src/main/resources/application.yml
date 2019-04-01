@@ -1,0 +1,12 @@
+server:
+  port: 80
+  tomcat:
+    uri-encoding: utf-8
+
+# 定位模板的目录
+spring:
+  mvc:
+    view:
+      prefix:
+        classpath: /templates/
+      suffix: .html
