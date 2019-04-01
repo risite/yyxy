@@ -6,17 +6,25 @@
   <title>走四棋儿</title>
   <link rel="shortcut icon" href="common/favicon.ico" type="image/x-icon">
   <style type="text/css">
+    @font-face {
+      font-family: 'Gochi Hand';
+      src: url('common/font/gochi-hand.regular.ttf') format('truetype');
+    }
+
     body {
       text-align: center;
       background-color: #607d8b;
     }
 
-    h5 {
-      color: #b3b3b3
+    ul {
+      color: #b3b3b3;
+      list-style: none;
+      /* font-family: 'Gochi Hand' cursive; */
     }
 
     button {
-      margin-bottom: 1em
+      margin-bottom: 1em;
+      font-family: 'Gochi Hand';
     }
 
     .list-complete-item {
@@ -25,8 +33,11 @@
       width: 3em;
       height: 3em;
       border: .16em solid;
-      margin-right: 1em;
-      margin-bottom: 1em;
+    }
+
+    .list-complete-item+.list-complete-item {
+      margin-left: 0.5em;
+      margin-bottom: 0.5em;
     }
 
     .marginright0 {
@@ -98,15 +109,19 @@
 </head>
 
 <body>
-  <h5>走四棋儿，每步走一格（白先）</br>直线上两个棋子可顶掉对方的一个棋子</br>直至某方只剩下一个棋子（或无路可走）</h5>
+  <ul>
+    <li>走四棋儿，每步走一格（白先）</li>
+    <li>直线上两个棋子可顶掉对方的一个棋子</li>
+    <li>直至某方只剩下一个棋子（或无路可走）</li>
+  </ul>
 
-  <div id="list-complete-demo" class="demo">
-    <button v-on:click="restart">Restart</button>
+  <div id="chess-panel">
+    <button @click="restart">Restart</button>
 
     <div v-for="i in 4" class="items">
       <div v-if="i==parseInt(key/10)" v-for="(value,key) in items"
         :class="{ white:value.val==1, black:value.val==2, marginright0:key%10==4, active:value.x }" :id="key"
-        v-on:click="cc" class="list-complete-item">
+        @click="cc" class="list-complete-item">
         <!-- {{ value.val }} -->
       </div>
     </div>
@@ -125,29 +140,29 @@
 </body>
 <script src="common/vue.js"></script>
 <script type="text/javascript">
+  /**
+   * 21:2排1列，val:区分黑白,0:空，1:黑，2:白,x:被选中
+   */
+  const default_items = {
+    11: { val: 1, x: false }, 12: { val: 1, x: false }, 13: { val: 1, x: false }, 14: { val: 1, x: false, },
+    21: { val: 0, x: false }, 22: { val: 0, x: false }, 23: { val: 0, x: false }, 24: { val: 0, x: false, },
+    31: { val: 0, x: false }, 32: { val: 0, x: false }, 33: { val: 0, x: false }, 34: { val: 0, x: false, },
+    41: { val: 2, x: false }, 42: { val: 2, x: false }, 43: { val: 2, x: false }, 44: { val: 2, x: false, },
+  }
+  /**
+   * 1:黑个数，2:白个数，active_qizi:当前被选中的棋子位置11，pre_val:上次移动的棋子0
+   */
+  const default_temp = { 1: 4, 2: 4, active_qizi: '', pre_val: 2 }
+
   const v = new Vue({
-    el: '#list-complete-demo',
+    el: '#chess-panel',
     data: {
-      temp: { 1: 4, 2: 4, active_qizi: '', pre_val: 2 },
-      items: {
-        11: { val: 1, x: false }, 12: { val: 1, x: false }, 13: { val: 1, x: false }, 14: { val: 1, x: false, },
-        21: { val: 0, x: false }, 22: { val: 0, x: false }, 23: { val: 0, x: false }, 24: { val: 0, x: false, },
-        31: { val: 0, x: false }, 32: { val: 0, x: false }, 33: { val: 0, x: false }, 34: { val: 0, x: false, },
-        41: { val: 2, x: false }, 42: { val: 2, x: false }, 43: { val: 2, x: false }, 44: { val: 2, x: false, },
-      },
+      temp: default_temp,
+      items: default_items,
     },
     methods: {
-      randomIndex: function () {
-        return Math.floor(Math.random() * this.items.length)
-      },
       restart: function () {
-        this.temp = { 1: 4, 2: 4, active_qizi: '', pre_val: 2 },
-          this.items = {
-            11: { val: 1, x: false }, 12: { val: 1, x: false }, 13: { val: 1, x: false }, 14: { val: 1, x: false, },
-            21: { val: 0, x: false }, 22: { val: 0, x: false }, 23: { val: 0, x: false }, 24: { val: 0, x: false, },
-            31: { val: 0, x: false }, 32: { val: 0, x: false }, 33: { val: 0, x: false }, 34: { val: 0, x: false, },
-            41: { val: 2, x: false }, 42: { val: 2, x: false }, 43: { val: 2, x: false }, 44: { val: 2, x: false, },
-          }
+        location.reload()
       },
       cc: function (event) {
         const name = event.target.id // 点击的span
@@ -180,13 +195,13 @@
       }
     }
   })
-  /*
+  /**
    * 杀子
    * ways：杀子规则，
    * a:移到了a排，b:相邻的b排是己方的棋子，c:c排的是对方的棋子，d:最远的d排上没子
    */
   const killzi = (name, val) => {
-    const row = parseInt(name / 10)
+    const row = Math.trunc(name / 10)
     const col = name % 10
     const ways = [
       { a: 1, b: 2, c: 3, d: 4 },
@@ -216,7 +231,6 @@
       }
     })
   }
-
 </script>
 
 </html>
