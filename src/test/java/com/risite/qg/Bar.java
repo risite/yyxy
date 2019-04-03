@@ -1,4 +1,4 @@
-package main;
+package com.risite.qg;
 
 import com.google.common.collect.Lists;
 

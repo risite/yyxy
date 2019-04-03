@@ -1,4 +1,4 @@
-package main;
+package com.risite.qg;
 
 public class Baz{
     private String type;

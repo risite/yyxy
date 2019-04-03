@@ -1,4 +1,4 @@
-package main;
+package com.risite.qg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class test2 {
 		    UUID uuid = UUID.randomUUID();
 		    values.add(uuid.toString());
 		}
-//		// ÄÉÃë
+//		// ï¿½ï¿½ï¿½ï¿½
 //		long t0 = System.nanoTime();
 //
 //		long count = values.stream().sorted().count();
@@ -25,13 +25,13 @@ public class test2 {
 //
 //		long t1 = System.nanoTime();
 //
-//		// ÄÉÃë×ªÎ¢Ãë
+//		// ï¿½ï¿½ï¿½ï¿½×ªÎ¢ï¿½ï¿½
 //		long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
-//		System.out.println(String.format("Ë³ÐòÁ÷ÅÅÐòºÄÊ±: %d ms", millis));
+//		System.out.println(String.format("Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±: %d ms", millis));
 
-		// Ë³ÐòÁ÷ÅÅÐòºÄÊ±: 899 ms
+		// Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±: 899 ms
 
-		// ÄÉÃë
+		// ï¿½ï¿½ï¿½ï¿½
 		long t0 = System.nanoTime();
 
 		long count = values.parallelStream().sorted().count();
@@ -39,11 +39,11 @@ public class test2 {
 
 		long t1 = System.nanoTime();
 
-		// ÄÉÃë×ªÎ¢Ãë
+		// ï¿½ï¿½ï¿½ï¿½×ªÎ¢ï¿½ï¿½
 		long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
-		System.out.println(String.format("²¢ÐÐÁ÷ÅÅÐòºÄÊ±: %d ms", millis));
+		System.out.println(String.format("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±: %d ms", millis));
 
-		// ²¢ÐÐÁ÷ÅÅÐòºÄÊ±: 472 ms
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±: 472 ms
 
 	}
 }

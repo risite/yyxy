@@ -1,4 +1,4 @@
-package main;
+package com.risite.qg;
 
 import com.google.common.collect.Lists;
 
@@ -30,7 +30,7 @@ public class ReduceTest {
             });
     }
     /*
-    Êä³ö½á¹û
+    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     name:A
     count:3
     totalTypeValue:14.0

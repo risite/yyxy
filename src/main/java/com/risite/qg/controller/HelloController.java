@@ -3,6 +3,7 @@ package com.risite.qg.controller;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.HashMap;
@@ -36,6 +37,8 @@ public class HelloController {
     public String index0() {
         return "5index0";
     }
+
+    @ResponseBody
     @RequestMapping("/user/1")
     public JSONObject hello() {
         JSONObject json = new JSONObject();
