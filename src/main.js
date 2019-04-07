@@ -3,6 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import VueLocalStorage from 'vue-localstorage'
+import api from './api' // 导入api接口
+Vue.prototype.$api = api;
+
+// 全局使用组件
+Vue.use(ElementUI)
+Vue.use(VueLocalStorage)
 Vue.config.productionTip = false
 
 new Vue({
