@@ -1,0 +1,298 @@
+<template>
+  <div class="zousiqi">
+    <!-- <ul>
+      <li>走四棋儿，每步走一格（白先）</li>
+      <li>直线上两个棋子可顶掉对方的一个棋子</li>
+      <li>直至某方只剩下一个棋子（或无路可走）</li>
+    </ul>-->
+
+    <!-- <button @click="restart">Restart</button> -->
+    <div class="chess-panel">
+      <div v-for="i in 4" class="items" :key="i">
+        <div
+          v-show="i==parseInt(key/10)"
+          v-for="(value,key) in items"
+          :class="{ white:value.val==1, black:value.val==2, marginright0:key%10==4, active:value.x }"
+          :id="key"
+          :key="key"
+          @click="cc"
+          class="list-complete-item"
+        >
+          <!-- {{ value.val }} -->
+        </div>
+      </div>
+    </div>
+
+    <div class="tips">
+      <transition name="bounce">
+        <div v-if="temp[1]<2" class="white-color">
+          white win!
+          <br>
+          <a @click="restart">restart</a>
+        </div>
+        <div v-else-if="temp[2]<2" class="black-color">
+          black win!
+          <br>
+          <a @click="restart">restart</a>
+        </div>
+      </transition>
+    </div>
+  </div>
+</template>
+
+<script type="text/javascript">
+/**
+ * 21:2排1列，val:区分黑白,0:空，1:黑，2:白,x:被选中
+ */
+const default_items = {
+  11: { val: 1, x: false },
+  12: { val: 1, x: false },
+  13: { val: 1, x: false },
+  14: { val: 1, x: false },
+  21: { val: 0, x: false },
+  22: { val: 0, x: false },
+  23: { val: 0, x: false },
+  24: { val: 0, x: false },
+  31: { val: 0, x: false },
+  32: { val: 0, x: false },
+  33: { val: 0, x: false },
+  34: { val: 0, x: false },
+  41: { val: 2, x: false },
+  42: { val: 2, x: false },
+  43: { val: 2, x: false },
+  44: { val: 2, x: false }
+};
+/**
+ * 1:黑个数，2:白个数，active_qizi:当前被选中的棋子位置11，pre_val:上次移动的棋子0
+ */
+const default_temp = { 1: 4, 2: 4, active_qizi: "", pre_val: 2 };
+
+export default {
+  name: "zousiqi",
+  data() {
+    return {
+      temp: default_temp,
+      items: default_items
+    };
+  },
+  methods: {
+    restart: function() {
+      this.temp = { 1: 4, 2: 4, active_qizi: "", pre_val: 2 };
+      this.items = {
+        11: { val: 1, x: false },
+        12: { val: 1, x: false },
+        13: { val: 1, x: false },
+        14: { val: 1, x: false },
+        21: { val: 0, x: false },
+        22: { val: 0, x: false },
+        23: { val: 0, x: false },
+        24: { val: 0, x: false },
+        31: { val: 0, x: false },
+        32: { val: 0, x: false },
+        33: { val: 0, x: false },
+        34: { val: 0, x: false },
+        41: { val: 2, x: false },
+        42: { val: 2, x: false },
+        43: { val: 2, x: false },
+        44: { val: 2, x: false }
+      };
+    },
+    cc: function(event) {
+      const name = event.target.id; // 点击的span
+      // 棋子被选中
+      if (
+        this.items[name].val !== 0 && // 位置有子
+        this.items[name].val !== this.temp.pre_val
+      ) {
+        // 点击位置的棋子和上次移动过的棋子不一样
+        if (this.temp.active_qizi) {
+          this.items[this.temp.active_qizi].x = false;
+        }
+        this.items[name].x = true;
+        this.temp.active_qizi = name;
+      }
+      // 棋子移动
+      if (
+        this.items[name].val == 0 && // 位置为空
+        this.temp.active_qizi &&
+        this.items[this.temp.active_qizi].val !== this.temp.pre_val && // 当前选中的棋子和上次移动过的棋子不一样
+        [1, -1, 10, -10].indexOf(this.temp.active_qizi - name) > -1
+      ) {
+        // 当前选中的位置和点击的位置相邻
+        // 移动棋子的现在的位置
+        this.items[name].x = true;
+        this.items[name].val = this.items[this.temp.active_qizi].val;
+        // 移动棋子的上一个位置
+        this.items[this.temp.active_qizi].x = false;
+        this.items[this.temp.active_qizi].val = 0;
+        // 保存当前选中棋子的位置和棋子的值(执方)
+        this.temp.active_qizi = name;
+        this.temp.pre_val = this.items[name].val;
+        this.killzi(name, this.items[name].val);
+      }
+    },
+    /**
+     * 杀子
+     * ways：杀子规则，
+     * a:移到了a排，b:相邻的b排是己方的棋子，c:c排的是对方的棋子，d:最远的d排上没子
+     */
+    killzi(name, val) {
+      const row = Math.trunc(name / 10);
+      const col = name % 10;
+      const ways = [
+        { a: 1, b: 2, c: 3, d: 4 },
+        { a: 2, b: 1, c: 3, d: 4 },
+        { a: 2, b: 3, c: 4, d: 1 },
+        { a: 2, b: 3, c: 1, d: 4 },
+        { a: 3, b: 4, c: 2, d: 1 },
+        { a: 3, b: 2, c: 1, d: 4 },
+        { a: 3, b: 2, c: 4, d: 1 },
+        { a: 4, b: 3, c: 2, d: 1 }
+      ];
+      ways.map(way => {
+        const { a, b, c, d } = way;
+        if (
+          col === a &&
+          this.items[row * 10 + b].val == val &&
+          this.items[row * 10 + c].val != val &&
+          this.items[row * 10 + c].val != 0 &&
+          this.items[row * 10 + d].val == 0
+        ) {
+          this.items[row * 10 + c].val = 0;
+          this.temp[val]--;
+        }
+        if (
+          row === a &&
+          this.items[b * 10 + col].val == val &&
+          this.items[c * 10 + col].val != val &&
+          this.items[c * 10 + col].val != 0 &&
+          this.items[d * 10 + col].val == 0
+        ) {
+          this.items[c * 10 + col].val = 0;
+          this.temp[val]--;
+        }
+      });
+    }
+  }
+};
+</script>
+
+<style scoped type="text/css">
+.zousiqi {
+  /* background: #303133; */
+  background: linear-gradient(45deg, #3a8ee6, #f56c6c);
+  text-align: center;
+  height: 100%;
+}
+.chess-panel {
+  /* background: linear-gradient(45deg, #3a8ee6, #f56c6c); */
+  display: inline-block;
+  padding: 1.3rem;
+  margin-top: 8rem;
+  -webkit-box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+  -webkit-transition: 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+ul {
+  color: #b3b3b3;
+  list-style: none;
+  margin: 0%;
+  padding: 0%;
+  /* font-family: 'Gochi Hand' cursive; */
+}
+
+button {
+  margin-bottom: 1em;
+}
+.tips {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.tips a {
+  color: #3a8ee6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.list-complete-item {
+  /* transition: all 0.3s; */
+  float: left;
+  width: 3em;
+  height: 3em;
+  border: 0.41rem ridge #32404e;
+}
+
+.list-complete-item + .list-complete-item {
+  margin-left: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.marginright0 {
+  margin-right: 0;
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+}
+
+.white {
+  background-color: #e4e7ed;
+}
+
+.black {
+  background-color: #000;
+}
+
+.white-color {
+  background-color: #fff;
+  color: #000;
+  font-size: 18px;
+  width: 6.2rem;
+}
+
+.black-color {
+  background-color: #000;
+  color: #fff;
+  font-size: 18px;
+  width: 6.2rem;
+}
+
+.active {
+  border: 0.4rem ridge #42b983;
+}
+
+.list-complete-enter,
+.list-complete-leave-to {
+  opacity: 0;
+}
+
+.list-complete-leave-active {
+  /* position: absolute; */
+}
+
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+</style>
