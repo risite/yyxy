@@ -180,7 +180,7 @@ export default {
 <style scoped type="text/css">
 .zousiqi {
   /* background: #303133; */
-  background: linear-gradient(45deg, #3a8ee6, #f56c6c);
+  background: linear-gradient(45deg, #39435f, #49567a);
   text-align: center;
   height: 100%;
 }
@@ -222,7 +222,7 @@ button {
   float: left;
   width: 3em;
   height: 3em;
-  border: 0.41rem ridge #32404e;
+  border: 0.41rem ridge #586994;
 }
 
 .list-complete-item + .list-complete-item {
@@ -262,7 +262,7 @@ button {
 }
 
 .active {
-  border: 0.4rem ridge #42b983;
+  border: 0.4rem ridge #38bfa7;
 }
 
 .list-complete-enter,
